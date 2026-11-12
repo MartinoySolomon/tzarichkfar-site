@@ -753,7 +753,9 @@ body{overflow-x:clip}
     var de=document.documentElement;
     clearTimeout(jmpT);
     de.style.setProperty('scroll-behavior','auto','important');document.body.style.setProperty('scroll-behavior','auto','important');
-    function want(){return $('stick').offsetHeight+8;}
+    var mn=document.getElementById('mini'),br0=document.querySelector('.brand');
+    if(mn&&br0&&el.getBoundingClientRect().top+sy()>br0.offsetHeight+40){mn.classList.add('on');mn.setAttribute('aria-hidden','false');de.style.setProperty('--mh',(mn.offsetHeight||50)+'px');}
+    function want(){return $('stick').offsetHeight+8+(parseFloat(getComputedStyle(de).getPropertyValue('--mh'))||0);}
     function native(){try{el.scrollIntoView({block:'start',behavior:'instant'});}catch(e){try{el.scrollIntoView(true);}catch(e2){}}}
     function fix(){var d=el.getBoundingClientRect().top-want();if(Math.abs(d)>30){try{window.scrollTo({top:Math.max(0,sy()+d),behavior:'instant'});}catch(e){setY(sy()+d);}}}
     native();
