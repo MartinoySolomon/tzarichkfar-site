@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://tzarichkfar.com/sitemap.xml
