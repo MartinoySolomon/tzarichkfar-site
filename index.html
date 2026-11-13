@@ -909,7 +909,8 @@ body{overflow-x:clip}
     [group(),document.getElementById('fc')].forEach(function(g){g.querySelectorAll('input[data-e]').forEach(function(i){if(i.value.trim())body.append('entry.'+i.dataset.e,i.value.trim());});});
     body.append('pageHistory',kind==='פעילות'?'0,1,3':'0,2,3');
     btn.disabled=true; btn.textContent='שולחת…';
-    fetch(URL_,{method:'POST',mode:'no-cors',body:body}).then(function(){btn.disabled=false;btn.textContent='שליחה';done();}).catch(function(){btn.disabled=false;btn.textContent='שליחה';msg.textContent='לא הצלחנו לשלוח. אפשר לנסות שוב או להשתמש בטופס של גוגל למטה.';});
+    function post(){return fetch(URL_,{method:'POST',mode:'no-cors',body:body});}
+    post().catch(function(){return new Promise(function(r){setTimeout(r,1200);}).then(post);}).then(function(){btn.disabled=false;btn.textContent='שליחה';done();}).catch(function(){btn.disabled=false;btn.textContent='שליחה';msg.textContent='לא הצלחנו לשלוח, אולי החיבור חלש. אפשר לנסות שוב או להשתמש בטופס של גוגל למטה.';});
   });
   document.getElementById('addagain').addEventListener('click',function(){
     f.reset(); f.hidden=false; document.getElementById('adddone').hidden=true;
