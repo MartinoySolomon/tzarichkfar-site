@@ -630,7 +630,7 @@ body{overflow-x:clip}
 <footer class="foot"><a href="#legal">מדיניות פרטיות</a><span aria-hidden="true"> · </span><a href="#legal">תנאי שימוש</a><span aria-hidden="true"> · </span><a href="#legal">הצהרת נגישות</a></footer>
 </main>
 <div id="hint" class="hint1" role="status" hidden><span class="harr" aria-hidden="true">&uarr;</span> אפשר לסנן לפי גיל, שעה ומחיר</div>
-<div class="sheetbg" id="a2hsbg" hidden><div class="sheet" role="dialog" aria-label="הוספה למסך הבית"><div class="num" style="direction:rtl;font-size:1.3rem">רוצות את הלוח תמיד בהישג יד?</div><p class="hint" style="font-size:.9rem;color:var(--fg)">אפשר להוסיף אותו כקיצור דרך למסך הבית. ההוראות תלויות במקום שבו פתחתן את הקישור:</p><div style="text-align:right;display:grid;gap:10px;font-size:.92rem"><div><b>באנדרואיד (כרום):</b><br>לוחצים על שלוש הנקודות ⋮ בפינה ובוחרים &quot;הוספה למסך הבית&quot;.</div><div id="a2hsi" hidden><b>באייפון:</b><br>לוחצים על סמל השיתוף ובוחרים &quot;הוסף למסך הבית&quot;.</div></div><p class="hint">אם בוואטסאפ או באינסטגרם האפשרות לא מופיעה, פתחו את הקישור בדפדפן.</p><div class="row"><button type="button" class="call" id="a2hsok">הבנתי</button></div></div></div>
+<div class="sheetbg" id="a2hsbg" hidden><div class="sheet" role="dialog" aria-label="הוספה למסך הבית"><div class="num" style="direction:rtl;font-size:1.3rem">רוצות את הלוח תמיד בהישג יד?</div><p class="hint" style="font-size:.9rem;color:var(--fg)">אפשר להוסיף אותו כקיצור דרך למסך הבית. כך עושים את זה:</p><div id="a2hst" style="text-align:right;display:grid;gap:10px;font-size:.92rem"></div><p class="hint">אם הקישור נפתח מתוך וואטסאפ, אינסטגרם או פייסבוק והאפשרות לא מופיעה, פתחו אותו קודם בדפדפן.</p><div class="row"><button type="button" class="call" id="a2hsok">הבנתי</button></div></div></div>
 <div class="sheetbg" id="sheetbg" hidden><div class="sheet" role="dialog" aria-label="יצירת קשר"><div id="sname" class="hint"></div><div class="num" id="snum"></div>
   <div class="row"><a class="call" id="swa" href="#" hidden>וואטסאפ</a><button type="button" id="scopy">העתקת המספר</button><button type="button" id="sclose">סגירה</button></div>
   <p class="hint" id="shint">אפשר להעתיק את המספר ולהדביק באפליקציית הטלפון.</p></div></div>
@@ -868,7 +868,17 @@ body{overflow-x:clip}
     var TESTMODE=false; /* זמני: מציג בכל פתיחה */
     if(!TESTMODE){try{if(localStorage.getItem(KEY))return;}catch(e){}}
     try{if(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)return;}catch(e){}
-    if(/iPhone|iPad/i.test(navigator.userAgent||''))$('a2hsi').hidden=false;
+    var UA=navigator.userAgent||'';
+    var iOS=/iPhone|iPad|iPod/i.test(UA)||(/Macintosh/i.test(UA)&&navigator.maxTouchPoints>1);
+    var AND=/Android/i.test(UA);
+    if(!iOS&&!AND)return; /* מחשב: אין צורך בחלון */
+    var tx;
+    if(iOS){tx='<div><b>באייפון או באייפד:</b><br>לוחצים על סמל השיתוף (ריבוע עם חץ למעלה), בסרגל התחתון בספארי או ליד שורת הכתובת בכרום, גוללים ובוחרים &quot;הוסף למסך הבית&quot; (Add to Home Screen).</div>';}
+    else if(/SamsungBrowser/i.test(UA)){tx='<div><b>בדפדפן של סמסונג:</b><br>לוחצים על תפריט הקווים ☰ בתחתית המסך ובוחרים &quot;הוספת דף אל&quot; ואז &quot;מסך הבית&quot;.</div>';}
+    else if(/Firefox/i.test(UA)){tx='<div><b>בפיירפוקס:</b><br>לוחצים על שלוש הנקודות ⋮ ובוחרים &quot;התקנה&quot; או &quot;הוספה למסך הבית&quot;.</div>';}
+    else{tx='<div><b>באנדרואיד (כרום):</b><br>לוחצים על שלוש הנקודות ⋮ בפינה ובוחרים &quot;התקנה ויצירת קיצור דרך&quot; (ובגרסאות אחרות: &quot;הוספה למסך הבית&quot;).</div>';}
+    tx+='<div style="color:var(--muted,#6b5a62);font-size:.85rem">אם השם בתפריט אצלך שונה, חפשו אפשרות עם המילים &quot;מסך הבית&quot; או &quot;קיצור דרך&quot;.</div>';
+    $('a2hst').innerHTML=tx;
     function close(){$('a2hsbg').hidden=true;if(!TESTMODE){try{localStorage.setItem(KEY,'1');}catch(e){}}}
     $('a2hsok').addEventListener('click',close);
     $('a2hsbg').addEventListener('click',function(e){if(e.target===this)close();});
