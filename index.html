@@ -175,7 +175,7 @@ body{overflow-x:clip}
 .share:active{transform:scale(.97)}
 .foot{margin:28px 0 8px;text-align:center;font-size:.8rem;color:var(--muted)}
 .foot a{color:var(--muted);text-decoration:underline}
-.hint1{position:fixed;z-index:40;background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-size:.88rem;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.18);animation:hin .35s ease both}
+.hint1{position:fixed;z-index:40;cursor:pointer;background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-size:.88rem;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.18);animation:hin .35s ease both}
 .hint1 .harr{display:inline-block;margin-inline-end:4px;animation:hbounce .9s ease-in-out infinite}
 .hint1.out{animation:hout .35s ease both}
 @keyframes hin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
@@ -629,7 +629,7 @@ body{overflow-x:clip}
 </div>
 <footer class="foot"><a href="#legal">מדיניות פרטיות</a><span aria-hidden="true"> · </span><a href="#legal">תנאי שימוש</a><span aria-hidden="true"> · </span><a href="#legal">הצהרת נגישות</a></footer>
 </main>
-<div id="hint" class="hint1" role="status" hidden><span class="harr" aria-hidden="true">&uarr;</span> אפשר לסנן לפי גיל, שעה ומחיר</div>
+<div id="hint" class="hint1" role="status" hidden><span class="harr" aria-hidden="true">&uarr;</span> אפשר לסנן לפי גיל, שעה ומחיר <b style="margin-inline-start:8px;text-decoration:underline">הבנתי</b></div>
 <div class="sheetbg" id="a2hsbg" hidden><div class="sheet" role="dialog" aria-label="הוספה למסך הבית"><div class="num" style="direction:rtl;font-size:1.3rem">רוצות את הלוח תמיד בהישג יד?</div><p class="hint" style="font-size:.9rem;color:var(--fg)">אפשר להוסיף אותו כקיצור דרך למסך הבית. כך עושים את זה:</p><div id="a2hst" style="text-align:right;display:grid;gap:10px;font-size:.92rem"></div><p class="hint">אם הקישור נפתח מתוך וואטסאפ, אינסטגרם או פייסבוק והאפשרות לא מופיעה, פתחו אותו קודם בדפדפן.</p><div class="row"><button type="button" class="call" id="a2hsok">הבנתי</button></div></div></div>
 <div class="sheetbg" id="sheetbg" hidden><div class="sheet" role="dialog" aria-label="יצירת קשר"><div id="sname" class="hint"></div><div class="num" id="snum"></div>
   <div class="row"><a class="call" id="swa" href="#" hidden>וואטסאפ</a><button type="button" id="scopy">העתקת המספר</button><button type="button" id="sclose">סגירה</button></div>
@@ -957,21 +957,21 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
     },{threshold:0}).observe(br);
     document.getElementById('minibtn').addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
   }
-  // one-time hint pointing at the filter button
-  var KEY='hint_filter_v1',seen=false;try{seen=!!localStorage.getItem(KEY);}catch(e){}
+  // hint pointing at the filter button: stays until the person taps it
+  var KEY='hint_filter_v2',seen=false;try{seen=!!localStorage.getItem(KEY);}catch(e){}
   if(seen)return;
-  var h=document.getElementById('hint'),f=document.getElementById('ftoggle'),done=false;
+  var h=document.getElementById('hint'),f=document.getElementById('ftoggle'),done=false,shown=false;
+  function place(){if(!shown||done)return;var r=f.getBoundingClientRect();if(!r.width){h.style.visibility='hidden';return;}h.style.visibility='visible';h.style.top=(r.bottom+8)+'px';var hw=h.offsetWidth;h.style.left=Math.max(8,Math.min(innerWidth-hw-8,r.left))+'px';}
   function hide(){if(done)return;done=true;h.classList.add('out');setTimeout(function(){h.hidden=true;},400);try{localStorage.setItem(KEY,'1');}catch(e){}}
-  function tryShow(n){
-    var sh=document.getElementById('a2hsbg');if(sh&&!sh.hidden){if(n<6)setTimeout(function(){tryShow(n+1);},2500);return;}
+  function tryShow(){
+    var sh=document.getElementById('a2hsbg');if(sh&&!sh.hidden){setTimeout(tryShow,1000);return;}
     var v=(location.hash||'#').slice(1);if(v&&v!=='nov'&&v!=='dec')return;
-    var r=f.getBoundingClientRect();if(!r.width||r.top<0||r.top>innerHeight)return;
-    h.hidden=false;h.style.top=(r.bottom+8)+'px';
-    var hw=h.offsetWidth;var left=Math.max(8,Math.min(innerWidth-hw-8,r.left));h.style.left=left+'px';
-    setTimeout(hide,5500);
-    ['scroll','click','touchstart'].forEach(function(ev){window.addEventListener(ev,hide,{once:true,passive:true});});
+    var r=f.getBoundingClientRect();if(!r.width){setTimeout(tryShow,1000);return;}
+    shown=true;h.hidden=false;place();
+    window.addEventListener('scroll',place,{passive:true});window.addEventListener('resize',place);
+    h.addEventListener('click',hide);f.addEventListener('click',hide);
   }
-  setTimeout(function(){tryShow(0);},2200);
+  setTimeout(tryShow,2200);
 })();
 </script>
 
