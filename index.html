@@ -1076,16 +1076,16 @@ btn.disabled=false;btn.textContent='להרשמה';f.reset();try{localStorage.set
 });})();
 (function(){var bar=document.getElementById('newsbar');if(!bar)return;
 var KD='news_bar_dismissed',KS='news_subscribed',KV='news_visits',skip=false,visits=1;
-try{var d=+localStorage.getItem(KD)||0;if(localStorage.getItem(KS)||(d&&Date.now()-d<14*864e5))skip=true;
+var force=/[?&]news=1/.test(location.search);try{var d=+localStorage.getItem(KD)||0;if(!force&&(localStorage.getItem(KS)||(d&&Date.now()-d<3*864e5)))skip=true;
 visits=(+localStorage.getItem(KV)||0)+1;localStorage.setItem(KV,String(visits));}catch(e){}
 if(skip)return;
 function busy(){var a=document.getElementById('a2hsbg'),sb=document.getElementById('sharebg'),h1=document.getElementById('hint'),h2=document.getElementById('hint2');
-return (a&&!a.hidden)||(sb&&!sb.hidden)||(h1&&!h1.hidden)||(h2&&!h2.hidden)||(location.hash||'')==='#news';}
+return (a&&!a.hidden)||(sb&&!sb.hidden)||(location.hash||'')==='#news';}
 function close(){bar.hidden=true;try{localStorage.setItem(KD,String(Date.now()));}catch(e){}}
 function tryShow(){if(!bar.hidden)return;if(busy()){setTimeout(tryShow,2000);return;}bar.hidden=false;}
 document.getElementById('newsbarx').addEventListener('click',close);
 document.getElementById('newsbargo').addEventListener('click',function(){bar.hidden=true;try{localStorage.setItem(KD,String(Date.now()));}catch(e){}});
 window.addEventListener('hashchange',function(){if((location.hash||'')==='#news')bar.hidden=true;});
-setTimeout(tryShow,visits>1?8000:35000);})();
+setTimeout(tryShow,visits>1?8000:20000);})();
 </script>
 </body></html>
