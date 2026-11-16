@@ -191,6 +191,10 @@ body{overflow-x:clip}
 #fbbg .fbopts button{font-size:.86rem;padding:6px 12px;font-weight:600}
 #fbbg .fbopts button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 #fbbg .row{margin-top:6px}
+#fbbg .sheet{position:relative}
+#fbbg .fbx{position:absolute;top:10px;inset-inline-end:10px;width:36px;height:36px;padding:0;border-radius:50%;font-size:1.3rem;line-height:1;color:var(--muted)}
+#fbbg h3{padding-inline-end:40px}
+#fbbg .fbthanks{font-family:var(--f-display);font-size:1.5rem;color:var(--ink);text-align:center;margin:28px 0 34px;font-weight:700}
 .legalink{display:block;margin-top:8px;font-size:.88rem}
 .share{display:inline-flex;align-items:center;gap:7px;margin-top:10px;font:inherit;font-size:.9rem;font-weight:700;border:0;background:var(--accent);color:var(--accent-fg);border-radius:999px;padding:7px 16px;cursor:pointer}
 .share:active{transform:scale(.97)}
@@ -700,7 +704,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
 <nav class="bnav" id="bnav" aria-label="ניווט"><a href="#nov" data-t="act" id="nact"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></i>פעילויות</a><a href="#play" data-t="play"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="9" r="4"/><rect x="12" y="11" width="8" height="8" rx="2"/></svg></i>ג'ימבורי</a><a href="#cafes" data-t="cafes"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h2a2 2 0 0 1 0 4h-2"/></svg></i>בתי קפה</a><a href="#news" data-t="news"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7.5l8.5 6 8.5-6"/></svg></i>ניוזלטר</a><a href="#join" data-t="join"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg></i>הוסיפי</a></nav>
 <div class="newsbar" id="newsbar" role="region" aria-label="הרשמה לעדכון השבועי" hidden><div class="nbt"><b>מה קורה השבוע בנהריה?</b><small>ישר למייל, כל יום ראשון</small></div><a href="#news" class="nbgo" id="newsbargo">אני רוצה</a><button type="button" id="newsbarx" aria-label="סגירה">&times;</button></div>
 <button type="button" class="sharefab" id="share" aria-label="שלחי את האתר לחברה"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4M8.6 13.4l6.8 4"/></svg></button>
-<div class="sheetbg" id="fbbg" hidden><div class="sheet" role="dialog" aria-labelledby="fbtitle"><h3 id="fbtitle"></h3><p class="hint" style="font-size:.86rem">היית שם? סמני מה שמתאים. אפשר לשלוח גם בלי לסמן כלום. המשוב אנונימי.</p><p class="fbq" id="fbq1">לאיזה גיל זה התאים?</p><div class="fbopts" id="fbages" role="group" aria-labelledby="fbq1"></div><p class="fbq" id="fbq2">מה היה טוב?</p><div class="fbopts" id="fbgood" role="group" aria-labelledby="fbq2"></div><p class="fbq" id="fbq3">כדאי לדעת</p><div class="fbopts" id="fbnote" role="group" aria-labelledby="fbq3"></div><p class="hint" id="fbmsg" role="status"></p><div class="row"><button type="button" class="call" id="fbsend">הייתי שם, שליחה</button><button type="button" id="fbclose">ביטול</button></div></div></div>
+<div class="sheetbg" id="fbbg" hidden><div class="sheet" role="dialog" aria-labelledby="fbtitle"><button type="button" class="fbx" id="fbx" aria-label="סגירה">×</button><h3 id="fbtitle"></h3><p class="hint" style="font-size:.86rem">היית שם? סמני מה שמתאים. אפשר לשלוח גם בלי לסמן כלום. המשוב אנונימי.</p><p class="fbq" id="fbq0">איך היה בסך הכל?</p><div class="fbopts" id="fball" role="group" aria-labelledby="fbq0"></div><p class="fbq" id="fbq1">לאיזה גיל זה התאים?</p><div class="fbopts" id="fbages" role="group" aria-labelledby="fbq1"></div><p class="fbq" id="fbq2">מה היה טוב?</p><div class="fbopts" id="fbgood" role="group" aria-labelledby="fbq2"></div><p class="fbq" id="fbq3">כדאי לדעת</p><div class="fbopts" id="fbnote" role="group" aria-labelledby="fbq3"></div><p class="hint" id="fbmsg" role="status"></p><div class="row"><button type="button" class="call" id="fbsend">הייתי שם, שליחה</button><button type="button" id="fbclose">ביטול</button></div><p class="fbthanks" id="fbthanks" role="status" hidden>תודה! זה עוזר לאמהות אחרות 💛</p></div></div>
 <div class="sheetbg" id="sharebg" hidden><div class="sheet" role="dialog" aria-label="שליחת האתר לחברה"><div class="num" style="direction:rtl;font-size:1.25rem">שלחי את האתר לחברה</div><p class="hint" style="font-size:.9rem;color:var(--fg)">העתיקי את הקישור ושלחי בוואטסאפ:</p><input type="text" id="sharelink" aria-label="קישור לאתר" readonly dir="ltr" style="width:100%;font:inherit;font-size:.9rem;border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--bg);color:var(--fg)"><a class="call" id="sharewa" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-bottom:8px;background:#25d366;color:#0b3d1d">שליחה בוואטסאפ</a><div class="row"><button type="button" class="call" id="sharecopy">העתקת הקישור</button><button type="button" class="call" id="shareclose" style="background:var(--surface2)">סגירה</button></div></div></div>
 <div class="mini" id="mini" role="banner" aria-hidden="true"><button type="button" id="minibtn" tabindex="-1"><svg class="minilogo" width="56" height="39" viewBox="14 14 340 236" aria-hidden="true"><defs><filter id="rfminilogo" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5"/></filter></defs><g filter="url(#rfminilogo)" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><g stroke="#5cb85c"><path d="M18 150L92 84L166 150"/><path d="M32 144V232H152V144"/><path d="M78 232V192H106V232"/><rect x="46" y="166" width="22" height="22" rx="3" stroke-width="5"/><rect x="116" y="166" width="22" height="22" rx="3" stroke-width="5"/><path d="M50 114V84H66V100"/></g><g stroke="#f3a53b"><circle cx="180" cy="48" r="20"/><path d="M180 10v10M180 76v10M142 48h10M208 48h10M153 21l7 7M200 68l7 7M207 21l-7 7M153 75l7-7"/></g><g transform="translate(205,150) scale(1.15)"><g stroke="#4a9fd8"><circle cx="0" cy="0" r="10"/><path d="M0 10V42M0 20L-18 38M0 20L24 36M0 42l-10 28M0 42l10 28"/></g><g stroke="#e8709a"><circle cx="50" cy="2" r="10"/><path d="M50 14l-18 40h36zM42 54v16M58 54v16M50 26L26 36M50 26l16 14"/></g></g><path stroke="#4a9fd8" stroke-width="5" d="M15 262H345"/></g></svg><span>צריך כפר שלם</span></button></div>
 <button type="button" class="totop" id="totop" aria-label="חזרה למעלה" hidden>&uarr;</button>
@@ -999,7 +1003,7 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
 <script>
 (function(){
   var URL_='https://docs.google.com/forms/d/e/1FAIpQLSctfqNVFM-N7BGLvc4bLCmbBSV225UB82mKeurS4XT1NidgWQ/formResponse';
-  var E={item:'1852377538',kind:'683970334',ages:'188312778',good:'514924839',note:'927436561'};
+  var E={item:'1852377538',kind:'683970334',ages:'188312778',good:'514924839',note:'927436561',overall:'114738007'};
   // summaries, updated from the responses table: {"name":{n:5,t:{"label":3}}}
   var FB={};
   var MIN=3;
@@ -1009,7 +1013,9 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
   var bg=document.getElementById('fbbg');if(!bg)return;
   var KD='fb_done',done=[];try{done=JSON.parse(localStorage.getItem(KD)||'[]')||[];}catch(e){}
   var cur=null;
-  function chips(id,list){var box=document.getElementById(id);box.textContent='';list.forEach(function(t){var b=document.createElement('button');b.type='button';b.textContent=t;b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')==='true'?'false':'true');});box.appendChild(b);});}
+  function chips(id,list,single){var box=document.getElementById(id);box.textContent='';list.forEach(function(t){var b=document.createElement('button');b.type='button';b.textContent=t;b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){var on=b.getAttribute('aria-pressed')==='true';if(single)[].forEach.call(box.children,function(o){o.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed',on?'false':'true');});box.appendChild(b);});}
+  var ALL=['אהבנו מאוד','היה בסדר','פחות התאים לנו'];
+  function show(th){[].forEach.call(bg.querySelector('.sheet').children,function(el){if(el.id==='fbthanks')el.hidden=!th;else el.style.display=th?'none':'';});}
   function picked(id){return [].map.call(document.querySelectorAll('#'+id+' button[aria-pressed="true"]'),function(b){return b.textContent;}).join(', ');}
   function mark(btn){btn.disabled=true;btn.textContent='הייתי שם ✓';}
   function sum(key){var d=FB[key];if(!d||d.n<MIN)return null;var sp=document.createElement('span');sp.className='fbsum';var b=document.createElement('b');b.textContent=d.n+' אמהות היו שם';sp.appendChild(b);
@@ -1017,26 +1023,26 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
     if(tags.length)sp.appendChild(document.createTextNode(' · '+tags.map(function(k){return k+' ('+d.t[k]+')';}).join(' · ')));return sp;}
   function attach(el,key,kind){var row=document.createElement('div');row.className='fbrow';var btn=document.createElement('button');btn.type='button';btn.className='fbbtn';btn.textContent='הייתי שם';
     if(done.indexOf(key)>-1)mark(btn);
-    btn.addEventListener('click',function(){cur={key:key,kind:kind,btn:btn};document.getElementById('fbtitle').textContent=key;chips('fbages',AGES);chips('fbgood',GOOD[kind]);chips('fbnote',NOTE[kind]);document.getElementById('fbmsg').textContent='';bg.hidden=false;});
+    btn.addEventListener('click',function(){cur={key:key,kind:kind,btn:btn};document.getElementById('fbtitle').textContent=key;show(false);chips('fball',ALL,true);chips('fbages',AGES);chips('fbgood',GOOD[kind]);chips('fbnote',NOTE[kind]);document.getElementById('fbmsg').textContent='';bg.hidden=false;});
     row.appendChild(btn);var sm=sum(key);if(sm)row.appendChild(sm);el.appendChild(row);}
   document.querySelectorAll('#v-play .card,#v-cafes .card').forEach(function(c){var n=c.querySelector('.c-name');if(n)attach(c,n.textContent.trim(),'place');});
   var acts=[].slice.call(document.querySelectorAll('article.act')),cnt={};
   acts.forEach(function(a){var n=a.querySelector('.name');if(!n)return;var t=n.textContent.trim();a._n=t;cnt[t]=(cnt[t]||0)+1;});
   acts.forEach(function(a){var t=a._n;if(!t)return;if(cnt[t]<2){var base=t.split(' – ')[0];if(base!==t&&cnt[base]>=2)t=base;else return;}attach(a,t,'act');});
   function close(){bg.hidden=true;cur=null;}
-  document.getElementById('fbclose').addEventListener('click',close);
+  document.getElementById('fbclose').addEventListener('click',close);document.getElementById('fbx').addEventListener('click',close);
   bg.addEventListener('click',function(e){if(e.target===bg)close();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!bg.hidden)close();});
   var send=document.getElementById('fbsend');
   send.addEventListener('click',function(){if(!cur)return;var c=cur,msg=document.getElementById('fbmsg');
     var body=new URLSearchParams();body.append('entry.'+E.item,c.key);body.append('entry.'+E.kind,c.kind==='place'?'מקום':'פעילות');
-    var a=picked('fbages'),g=picked('fbgood'),n=picked('fbnote');if(a)body.append('entry.'+E.ages,a);if(g)body.append('entry.'+E.good,g);if(n)body.append('entry.'+E.note,n);
+    var a=picked('fbages'),g=picked('fbgood'),n=picked('fbnote'),o=picked('fball');if(o)body.append('entry.'+E.overall,o);if(a)body.append('entry.'+E.ages,a);if(g)body.append('entry.'+E.good,g);if(n)body.append('entry.'+E.note,n);
     send.disabled=true;msg.textContent='שולחת…';
     function post(){return fetch(URL_,{method:'POST',mode:'no-cors',body:body});}
     post().catch(function(){return new Promise(function(r){setTimeout(r,1200);}).then(post);}).then(function(){send.disabled=false;
       done.push(c.key);try{localStorage.setItem(KD,JSON.stringify(done));}catch(e){}
       document.querySelectorAll('.fbbtn').forEach(function(b){var r=b.closest('.card,.act');var nm=r&&(r.querySelector('.c-name')||{}).textContent;if(b===c.btn||(nm&&nm.trim()===c.key)||(r&&r._n&&(r._n===c.key||r._n.split(' – ')[0]===c.key)))mark(b);});
-      msg.textContent='תודה! זה עוזר לאמהות אחרות.';setTimeout(close,1300);
+      msg.textContent='';show(true);setTimeout(close,900);
     }).catch(function(){send.disabled=false;msg.textContent='לא הצלחנו לשלוח, אולי החיבור חלש. אפשר לנסות שוב.';});
   });
 })();
