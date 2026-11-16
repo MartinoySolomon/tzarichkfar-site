@@ -1029,7 +1029,7 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
   function show(th){[].forEach.call(bg.querySelector('.sheet').children,function(el){if(el.id==='fbthanks')el.hidden=!th;else el.style.display=th?'none':'';});}
   function picked(id){return [].map.call(document.querySelectorAll('#'+id+' button[aria-pressed="true"]'),function(b){return b.textContent;});}
   function fill(el,lead,tags){el.textContent='';if(!lead)return;var b=document.createElement('b');b.textContent=lead;el.appendChild(b);(tags||[]).forEach(function(t){var c=document.createElement('span');c.className='fbtag';c.textContent=t;el.appendChild(c);});}
-  function fbFill(el,d){if(!d||!d.n){fill(el,'');return;}var tags=[];if(d.n>=MIN)tags=Object.keys(d.t||{}).sort(function(a,c){return d.t[c]-d.t[a];}).slice(0,6).map(function(k){return d.n>1?k+' '+d.t[k]:k;});fill(el,d.n===1?'אמא אחת הייתה שם':d.n+' אמהות היו שם',tags);}
+  function fbFill(el,d){if(!d||!d.n){fill(el,'');return;}var tags=[];if(d.n>=MIN)tags=Object.keys(d.t||{}).sort(function(a,c){return d.t[c]-d.t[a];}).slice(0,6).map(function(k){return d.n>1?k+' ('+d.t[k]+')':k;});fill(el,d.n===1?'אמא אחת הייתה שם':d.n+' אמהות היו שם',tags);}
   function goText(n){return !n?'':n===1?'אמא אחת מגיעה':n+' מגיעות';}
   function render(){
     Object.keys(fbEls).forEach(function(k){var isDone=done.indexOf(k)>-1;fbEls[k].forEach(function(o){fbFill(o.sum,data.fb[k]);o.btn.disabled=isDone;o.btn.textContent=isDone?'הייתי שם ✓':'הייתי שם';});});
