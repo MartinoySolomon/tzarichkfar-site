@@ -979,8 +979,10 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
   (function(){
     var KEY='a2hs_seen3';
     var TESTMODE=false; /* זמני: מציג בכל פתיחה */
-    if(!TESTMODE){try{if(localStorage.getItem(KEY))return;}catch(e){}}
-    try{if(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)return;}catch(e){}
+    function seen(){try{if(localStorage.getItem(KEY))return true;}catch(e){}return /(?:^|; )a2hs_seen=1/.test(document.cookie||'');}
+    function mark(){try{localStorage.setItem(KEY,'1');}catch(e){}try{document.cookie='a2hs_seen=1; max-age=31536000; path=/; SameSite=Lax; Secure';}catch(e){}}
+    if(!TESTMODE&&seen())return;
+    try{if(navigator.standalone||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches))return;}catch(e){}
     var UA=navigator.userAgent||'';
     var iOS=/iPhone|iPad|iPod/i.test(UA)||(/Macintosh/i.test(UA)&&navigator.maxTouchPoints>1);
     var AND=/Android/i.test(UA);
@@ -992,10 +994,10 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
     else{tx='<div><b>באנדרואיד (כרום):</b><br>לחצי על שלוש הנקודות ⋮ בפינה ובחרי &quot;התקנה ויצירת קיצור דרך&quot; (ובגרסאות אחרות: &quot;הוספה למסך הבית&quot;).</div>';}
     tx+='<div style="color:var(--muted,#6b5a62);font-size:.85rem">אם השם בתפריט אצלך שונה, חפשי אפשרות עם המילים &quot;מסך הבית&quot; או &quot;קיצור דרך&quot;.</div>';
     $('a2hst').innerHTML=tx;
-    function close(){$('a2hsbg').hidden=true;if(!TESTMODE){try{localStorage.setItem(KEY,'1');}catch(e){}}}
+    function close(){$('a2hsbg').hidden=true;if(!TESTMODE)mark();}
     $('a2hsok').addEventListener('click',close);
     $('a2hsbg').addEventListener('click',function(e){if(e.target===this)close();});
-    setTimeout(function(){if($('sheetbg').hidden)$('a2hsbg').hidden=false;},1800);
+    setTimeout(function(){if($('sheetbg').hidden){$('a2hsbg').hidden=false;if(!TESTMODE)mark();}},1800);
   })();
   window.addEventListener('hashchange',render);
   (function(){var h=(location.hash||'').slice(1);if((h===''||h==='nov'||h==='dec')&&mkOf(TODAY)===curView()){st.sel=TODAY;st.go=TODAY;st.quiet=true;}})();
