@@ -10,6 +10,7 @@ let ready = false;
 let names = null;
 let cache = null;
 let cacheAt = 0;
+let cleanedAt = 0;
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -114,6 +115,15 @@ async function api(request, env) {
       const recent = await env.DB.prepare('SELECT COUNT(*) AS n FROM go WHERE ts > ?').bind(now - 3600000).first();
       if (recent && recent.n > MAX_PER_HOUR) return json({ error: 'busy' }, 429);
       await env.DB.prepare('INSERT OR IGNORE INTO go (k, cid, ts) VALUES (?,?,?)').bind(b.k, b.cid, now).run();
+      // housekeeping: drop attendance marks 30 days after the activity, feedback after 24 months
+      if (now - cleanedAt > 86400000) {
+        cleanedAt = now;
+        const cutoff = new Date(now - 30 * 86400000).toISOString().slice(0, 10);
+        await env.DB.batch([
+          env.DB.prepare('DELETE FROM go WHERE substr(k, 1, 10) < ?').bind(cutoff),
+          env.DB.prepare('DELETE FROM fb WHERE ts < ?').bind(now - 730 * 86400000),
+        ]);
+      }
     }
     cache = null;
     return json(await summary(env));
