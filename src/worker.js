@@ -24,6 +24,7 @@ async function init(env) {
   await env.DB.batch([
     env.DB.prepare('CREATE TABLE IF NOT EXISTS fb (item TEXT NOT NULL, kind TEXT, overall TEXT, ages TEXT, good TEXT, note TEXT, cid TEXT NOT NULL, ts INTEGER NOT NULL, PRIMARY KEY (item, cid))'),
     env.DB.prepare('CREATE TABLE IF NOT EXISTS go (k TEXT NOT NULL, cid TEXT NOT NULL, ts INTEGER NOT NULL, PRIMARY KEY (k, cid))'),
+    env.DB.prepare('CREATE TABLE IF NOT EXISTS hits (day TEXT NOT NULL, tag TEXT NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (day, tag))'),
   ]);
   ready = true;
 }
@@ -87,6 +88,12 @@ async function api(request, env) {
   const url = new URL(request.url);
   await init(env);
   if (request.method === 'GET' && url.pathname === '/api/s') return json(await summary(env));
+  if (request.method === 'GET' && url.pathname === '/api/qr') {
+    const rows = await env.DB.prepare('SELECT day, tag, n FROM hits ORDER BY day').all();
+    let total = 0;
+    for (const r of rows.results) total += r.n;
+    return json({ total, days: rows.results });
+  }
   if (request.method !== 'POST') return json({ error: 'method' }, 405);
   const origin = request.headers.get('origin');
   if (origin && origin !== url.origin) return json({ error: 'origin' }, 403);
@@ -134,6 +141,16 @@ async function api(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // QR code entry point: count the scan (no personal data) and send the visitor to the site
+    if (url.pathname === '/qr' || url.pathname.startsWith('/qr/')) {
+      try {
+        await init(env);
+        const m = /^\/qr\/([a-z0-9-]{1,20})$/.exec(url.pathname);
+        const day = new Date(Date.now() + 2 * 3600000).toISOString().slice(0, 10);
+        await env.DB.prepare('INSERT INTO hits (day, tag, n) VALUES (?, ?, 1) ON CONFLICT(day, tag) DO UPDATE SET n = n + 1').bind(day, m ? m[1] : 'main').run();
+      } catch (e) {}
+      return new Response(null, { status: 302, headers: { location: '/', 'cache-control': 'no-store' } });
+    }
     if (url.pathname.startsWith('/api/')) {
       try { return await api(request, env); } catch (e) { return json({ error: 'server' }, 500); }
     }
