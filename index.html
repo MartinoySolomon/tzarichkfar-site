@@ -890,6 +890,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
     document.querySelectorAll('.seg button[data-mode]').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
     if(st.mode==='list'&&st.sel)st.go=st.sel;
     render();
+    if(st.mode==='cal')window.scrollTo(0,0);
   });});
   // filters
   $('ftoggle').addEventListener('click',function(){var o=$('filters').hidden;$('filters').hidden=!o;this.setAttribute('aria-expanded',o?'true':'false');});

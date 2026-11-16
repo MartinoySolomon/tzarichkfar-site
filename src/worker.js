@@ -25,6 +25,16 @@ async function init(env) {
     env.DB.prepare('CREATE TABLE IF NOT EXISTS fb (item TEXT NOT NULL, kind TEXT, overall TEXT, ages TEXT, good TEXT, note TEXT, cid TEXT NOT NULL, ts INTEGER NOT NULL, PRIMARY KEY (item, cid))'),
     env.DB.prepare('CREATE TABLE IF NOT EXISTS go (k TEXT NOT NULL, cid TEXT NOT NULL, ts INTEGER NOT NULL, PRIMARY KEY (k, cid))'),
   ]);
+  // one-time wipe of pre-launch test data
+  await env.DB.prepare('CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY)').run();
+  const flag = await env.DB.prepare("SELECT k FROM meta WHERE k = 'reset2'").first();
+  if (!flag) {
+    await env.DB.batch([
+      env.DB.prepare('DELETE FROM fb'),
+      env.DB.prepare('DELETE FROM go'),
+      env.DB.prepare("INSERT OR IGNORE INTO meta (k) VALUES ('reset2')"),
+    ]);
+  }
   ready = true;
 }
 
