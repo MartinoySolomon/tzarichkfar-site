@@ -1004,7 +1004,7 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
 </script>
 <script>
 (function(){
-  var MIN=3;
+  var MIN=1;
   var ALL=['אהבנו מאוד','היה בסדר','פחות התאים לנו'];
   var AGES=['לידה עד זחילה','זחילה עד שנה','שנה עד שנתיים','שנתיים עד שלוש','שלוש עד ארבע','ארבע עד שש'];
   var GOOD={place:['מוצל','נקי ומסודר','נוח עם עגלה','פינת החתלה','חניה נוחה','צוות נעים','מתאים לזוחלים'],act:['מדריכה מקסימה','מתאים לגיל','אווירה נעימה','הכרתי אמהות','שווה את המחיר']};
@@ -1021,7 +1021,7 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
   function show(th){[].forEach.call(bg.querySelector('.sheet').children,function(el){if(el.id==='fbthanks')el.hidden=!th;else el.style.display=th?'none':'';});}
   function picked(id){return [].map.call(document.querySelectorAll('#'+id+' button[aria-pressed="true"]'),function(b){return b.textContent;});}
   function fbText(d){if(!d||!d.n)return '';var s=d.n===1?'אמא אחת הייתה שם':d.n+' אמהות היו שם';
-    if(d.n>=MIN){var tags=Object.keys(d.t||{}).filter(function(k){return d.t[k]>=2;}).sort(function(a,c){return d.t[c]-d.t[a];}).slice(0,5);if(tags.length)s+=' · '+tags.map(function(k){return k+' ('+d.t[k]+')';}).join(' · ');}
+    if(d.n>=MIN){var tags=Object.keys(d.t||{}).sort(function(a,c){return d.t[c]-d.t[a];}).slice(0,6);if(tags.length)s+=' · '+tags.map(function(k){return k+' ('+d.t[k]+')';}).join(' · ');}
     return s;}
   function goText(n){return !n?'':n===1?'אמא אחת מגיעה':n+' מגיעות';}
   function render(){
