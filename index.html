@@ -184,8 +184,12 @@ body{overflow-x:clip}
 .fbbtn[disabled]{background:var(--surface2);cursor:default}
 .fbgrp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 .gobtn[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
-.fbsum{font-size:.82rem;color:var(--muted)}
-.fbsum b{color:var(--fg)}
+.fbinfo{display:grid;gap:5px}
+.fbsum{font-size:.86rem;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin-top:6px}
+.fbsum:empty{display:none}
+.fbsum b{color:var(--ink);font-weight:700}
+.fbtag{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:1px 9px;font-size:.8rem;color:var(--fg)}
+.card .fbtag{background:var(--surface2)}
 #fbbg .sheet{text-align:start;max-height:88vh;overflow:auto;gap:10px}
 #fbbg h3{margin:0;font-family:var(--f-display);color:var(--ink);font-size:1.15rem}
 #fbbg .fbq{margin:6px 0 0;font-weight:700;font-size:.92rem}
@@ -586,7 +590,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
 <article class="act" data-time="m" data-amin="12" data-amax="36" data-place="פרחי אהרון, עכו" data-free="0"><span class="name">גן עם אמאבא</span>שעה: <span dir="ltr">09:30–12:30</span> · גילאים: שנה עד 3<br/>מיקום: פרחי אהרון 1, עכו · מחיר: 30 ₪ למפגש / 4 כניסות ב-100 ₪<br/>הרשמה: אורטל בן דוד <a class="tel" href="tel:+972526412668" dir="ltr">052-641-2668</a> · yeladodes@akko.matnasim.co.il</article>
 <article class="act" data-time="m" data-amin="0" data-amax="12" data-place="המרכז לגיל הרך (שמעון פרס)" data-free="0"><span class="name">לגדול ביחד – מפגש שיח לאמהות (לירז פוסק קורן): שיח לידה</span>שעה: <span dir="ltr">10:00</span> · גילאים: אמהות ותינוקות בחופשת לידה<br/>מיקום: המרכז לגיל הרך, דרך השלום 10, שכונת שמעון פרס, נהריה · מחיר: 20 ₪ (כולל ארוחת בוקר קלה)<br/>הרשמה: <a href="https://katzr.net/b885d5">הרשמה</a></article>
 <article class="act" data-time="m" data-amin="2" data-amax="12" data-place="קניון סטאר נהריה" data-free="1"><span class="name">בייבי סטאר – צליל ותנועה (יעל שכטר, כולל שובר קפה ומאפה לאימהות)</span>שעה: <span dir="ltr">10:30</span> · גילאים: חודשיים עד שנה<br/>מיקום: קניון סטאר נהריה (ג׳ימבורי, קומה עליונה) · מחיר: כניסה חופשית</article>
-<article class="act" data-time="a" data-amin="" data-amax="" data-place="המרכז לגיל הרך (שמעון פרס)" data-free="0"><span class="name">בקשר להורות</span>שעה: <span dir="ltr">20:00</span> · להורים (גיל הילדים לא צוין)<br/>מיקום: המרכז לגיל הרך, דרך השלום 10, שכונת שמעון פרס, נהריה · מחיר: לא צוין<br/>הרשמה: <a href="https://www.mkn.org.il/page.php?type=event&id=35359">לפרטים והרשמה</a> או בטלפון <a class="tel" href="tel:+97233326960" dir="ltr">073-332-6960</a></article>
+<article class="act" data-time="a" data-amin="" data-amax="" data-place="המרכז לגיל הרך (שמעון פרס)" data-free="0"><span class="name">בקשר להורות – סדנה להורים: אווירה טובה בבית, התנהגויות מפריעות ושיתוף פעולה (ציפי אדרי, מכון אדלר)</span>שעה: <span dir="ltr">20:00</span> · להורים · 5 מפגשים בימי שני, החל מ-23/11<br/>מיקום: המרכז לגיל הרך, דרך השלום 10, שכונת שמעון פרס, נהריה · מחיר: 100 ₪ למשתתף, 160 ₪ לזוג הורים<br/>הרשמה: מראש, מספר המקומות מוגבל. <a href="https://www.mkn.org.il/page.php?type=event&id=35359">לפרטים והרשמה</a> או בטלפון <a class="tel" href="tel:+97233326960" dir="ltr">073-332-6960</a></article>
 </div></section>
 <section class="day" id="d11-24" data-date="2026-11-24"><header><span class="dn">24</span><span class="dw">שלישי</span></header><div class="acts">
 <article class="act" data-time="m" data-amin="12" data-amax="36" data-place="פרחי אהרון, עכו" data-free="0"><span class="name">גן עם אמאבא</span>שעה: <span dir="ltr">09:30–12:30</span> · גילאים: שנה עד 3<br/>מיקום: פרחי אהרון 1, עכו · מחיר: 30 ₪ למפגש / 4 כניסות ב-100 ₪<br/>הרשמה: אורטל בן דוד <a class="tel" href="tel:+972526412668" dir="ltr">052-641-2668</a> · yeladodes@akko.matnasim.co.il</article>
@@ -1020,16 +1024,15 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
   function chips(id,list,single){var box=document.getElementById(id);box.textContent='';list.forEach(function(t){var b=document.createElement('button');b.type='button';b.textContent=t;b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){var on=b.getAttribute('aria-pressed')==='true';if(single)[].forEach.call(box.children,function(o){o.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed',on?'false':'true');});box.appendChild(b);});}
   function show(th){[].forEach.call(bg.querySelector('.sheet').children,function(el){if(el.id==='fbthanks')el.hidden=!th;else el.style.display=th?'none':'';});}
   function picked(id){return [].map.call(document.querySelectorAll('#'+id+' button[aria-pressed="true"]'),function(b){return b.textContent;});}
-  function fbText(d){if(!d||!d.n)return '';var s=d.n===1?'אמא אחת הייתה שם':d.n+' אמהות היו שם';
-    if(d.n>=MIN){var tags=Object.keys(d.t||{}).sort(function(a,c){return d.t[c]-d.t[a];}).slice(0,6);if(tags.length)s+=' · '+tags.map(function(k){return k+' ('+d.t[k]+')';}).join(' · ');}
-    return s;}
+  function fill(el,lead,tags){el.textContent='';if(!lead)return;var b=document.createElement('b');b.textContent=lead;el.appendChild(b);(tags||[]).forEach(function(t){var c=document.createElement('span');c.className='fbtag';c.textContent=t;el.appendChild(c);});}
+  function fbFill(el,d){if(!d||!d.n){fill(el,'');return;}var tags=[];if(d.n>=MIN)tags=Object.keys(d.t||{}).sort(function(a,c){return d.t[c]-d.t[a];}).slice(0,6).map(function(k){return d.n>1?k+' '+d.t[k]:k;});fill(el,d.n===1?'אמא אחת הייתה שם':d.n+' אמהות היו שם',tags);}
   function goText(n){return !n?'':n===1?'אמא אחת מגיעה':n+' מגיעות';}
   function render(){
-    Object.keys(fbEls).forEach(function(k){var t=fbText(data.fb[k]),isDone=done.indexOf(k)>-1;fbEls[k].forEach(function(o){o.sum.textContent=t;o.btn.disabled=isDone;o.btn.textContent=isDone?'הייתי שם ✓':'הייתי שם';});});
-    Object.keys(goEls).forEach(function(k){var on=mine.indexOf(k)>-1,n=data.go[k]||0;if(on&&n<1)n=1;goEls[k].forEach(function(o){o.sum.textContent=goText(n);o.btn.setAttribute('aria-pressed',on?'true':'false');o.btn.textContent=on?'אני מגיעה ✓':'אני מגיעה!';});});
+    Object.keys(fbEls).forEach(function(k){var isDone=done.indexOf(k)>-1;fbEls[k].forEach(function(o){fbFill(o.sum,data.fb[k]);o.btn.disabled=isDone;o.btn.textContent=isDone?'הייתי שם ✓':'הייתי שם';});});
+    Object.keys(goEls).forEach(function(k){var on=mine.indexOf(k)>-1,n=data.go[k]||0;if(on&&n<1)n=1;goEls[k].forEach(function(o){fill(o.sum,goText(n));o.btn.setAttribute('aria-pressed',on?'true':'false');o.btn.textContent=on?'אני מגיעה ✓':'אני מגיעה!';});});
   }
-  function row(el){var r=el.querySelector('.fbrow');if(!r){r=document.createElement('div');r.className='fbrow';el.appendChild(r);}return r;}
-  function mk(r,cls,label){var g=document.createElement('span');g.className='fbgrp';var b=document.createElement('button');b.type='button';b.className='fbbtn '+cls;b.textContent=label;var s=document.createElement('span');s.className='fbsum';s.setAttribute('aria-live','polite');g.appendChild(b);g.appendChild(s);r.appendChild(g);return {btn:b,sum:s};}
+  function row(el){var r=el.querySelector('.fbrow');if(!r){r=document.createElement('div');r.className='fbrow';el.appendChild(r);var inf=document.createElement('div');inf.className='fbinfo';el.appendChild(inf);}return r;}
+  function mk(r,cls,label){var b=document.createElement('button');b.type='button';b.className='fbbtn '+cls;b.textContent=label;var s=document.createElement('div');s.className='fbsum';s.setAttribute('aria-live','polite');r.appendChild(b);r.nextSibling.appendChild(s);return {btn:b,sum:s};}
   function attachFb(el,key,kind){var o=mk(row(el),'','הייתי שם');(fbEls[key]=fbEls[key]||[]).push(o);
     o.btn.addEventListener('click',function(){cur={key:key,kind:kind};document.getElementById('fbtitle').textContent=key;show(false);chips('fball',ALL,true);chips('fbages',AGES);chips('fbgood',GOOD[kind]);chips('fbnote',NOTE[kind]);document.getElementById('fbmsg').textContent='';bg.hidden=false;});}
   function attachGo(el,k){var o=mk(row(el),'gobtn','אני מגיעה!');(goEls[k]=goEls[k]||[]).push(o);
