@@ -2,3 +2,6 @@ wrangler.jsonc
 README.md
 .git
 .assetsignore
+src
+node_modules
+.wrangler
