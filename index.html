@@ -1021,6 +1021,7 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
   var bg=document.getElementById('fbbg');if(!bg)return;
   function lsGet(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}}
   function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+  if(/[?&]reset=1(&|$)/.test(location.search)){try{['fb_done','go_mine','kfar_cid'].forEach(function(k){localStorage.removeItem(k);});history.replaceState(null,'',location.pathname+location.hash);}catch(e){}}
   var done=lsGet('fb_done',[]),mine=lsGet('go_mine',[]);
   var cid=lsGet('kfar_cid','');
   if(!/^[a-z0-9-]{12,40}$/.test(cid)){cid='';var ch='abcdefghijklmnopqrstuvwxyz0123456789';var rnd=new Uint8Array(20);(window.crypto||window.msCrypto).getRandomValues(rnd);for(var i=0;i<20;i++)cid+=ch[rnd[i]%36];lsSet('kfar_cid',cid);}
