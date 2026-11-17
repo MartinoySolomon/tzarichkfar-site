@@ -6,6 +6,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://tzarichkfar.com/#site","url":"https://tzarichkfar.com/","name":"צריך כפר שלם","alternateName":"Tzarich Kfar Shalem","inLanguage":"he","description":"לוח פעילויות ומקומות להורים עם תינוקות וילדים עד גיל 6 בנהריה, עכו, שלומי והגליל המערבי."},{"@type":"Organization","@id":"https://tzarichkfar.com/#org","name":"צריך כפר שלם","url":"https://tzarichkfar.com/","logo":"https://tzarichkfar.com/icon-512.png","areaServed":[{"@type":"City","name":"נהריה"},{"@type":"City","name":"עכו"},{"@type":"City","name":"שלומי"}],"email":"contact@tzarichkfar.com","description":"יוזמה קהילתית המרכזת פעילויות, ג׳ימבורי ובתי קפה ידידותיים לילדים בנהריה והגליל המערבי."}]}</script>
 <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/icon-180.png"><link rel="manifest" href="/manifest.webmanifest"><meta name="apple-mobile-web-app-title" content="צריך כפר שלם"><meta name="application-name" content="צריך כפר שלם">
 <link rel="preload" href="/fonts/assistant-var.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/playpen-hebrew-var.woff" as="font" type="font/woff" crossorigin>
+<script>(function(h){h.className+=' js';setTimeout(function(){h.classList.add('ready');},8000);})(document.documentElement);</script><style>html.js:not(.ready) main{visibility:hidden}</style>
 <style>@font-face{font-family:'Assistant';font-style:normal;font-weight:400 700;font-display:swap;src:url(/fonts/assistant-var.woff) format('woff')}
 @font-face{font-family:'Playpen Sans Hebrew';font-style:normal;font-weight:500 800;font-display:swap;src:url(/fonts/playpen-hebrew-var.woff) format('woff')}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
@@ -1083,8 +1084,11 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
     if(cnt[t]<2){var base=t.split(' – ')[0];if(base!==t&&cnt[base]>=2)t=base;else return;}
     attachFb(a,t,'act');});
   document.querySelectorAll('#v-play .card,#v-cafes .card').forEach(function(c){var n=c.querySelector('.c-name');if(n)attachFb(c,n.textContent.trim(),'place');});
+  var rd=function(){document.documentElement.classList.add('ready');};
+  var cs=lsGet('kfar_s',null);if(cs&&cs.fb&&cs.go)data=cs;
   render();
-  api('/api/s').then(function(d){data=d;render();}).catch(function(){});
+  if(cs)rd();else setTimeout(rd,1200);
+  api('/api/s').then(function(d){data=d;lsSet('kfar_s',d);render();rd();}).catch(rd);
   function close(){bg.hidden=true;cur=null;if(last){try{last.focus();}catch(e){}last=null;}}
   document.getElementById('fbclose').addEventListener('click',close);document.getElementById('fbx').addEventListener('click',close);
   bg.addEventListener('click',function(e){if(e.target===bg)close();});
@@ -1212,4 +1216,4 @@ document.getElementById('newsbargo').addEventListener('click',function(){bar.hid
 window.addEventListener('hashchange',function(){if((location.hash||'')==='#news')bar.hidden=true;});
 setTimeout(tryShow,visits>1?8000:20000);})();
 </script>
-</body></html>
+<script>setTimeout(function(){document.documentElement.classList.add('ready');},2500);</script></body></html>
