@@ -142,12 +142,13 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     // QR code entry point: count the scan (no personal data) and send the visitor to the site
-    if (url.pathname === '/qr' || url.pathname.startsWith('/qr/')) {
+    if (url.pathname === '/qr' || url.pathname.startsWith('/qr/') || /^\/g\/[a-z0-9-]{1,20}$/.test(url.pathname)) {
       try {
         await init(env);
         const m = /^\/qr\/([a-z0-9-]{1,20})$/.exec(url.pathname);
+        const g = /^\/g\/([a-z0-9-]{1,20})$/.exec(url.pathname);
         const day = new Date(Date.now() + 2 * 3600000).toISOString().slice(0, 10);
-        await env.DB.prepare('INSERT INTO hits (day, tag, n) VALUES (?, ?, 1) ON CONFLICT(day, tag) DO UPDATE SET n = n + 1').bind(day, m ? m[1] : 'main').run();
+        await env.DB.prepare('INSERT INTO hits (day, tag, n) VALUES (?, ?, 1) ON CONFLICT(day, tag) DO UPDATE SET n = n + 1').bind(day, g ? 'g-' + g[1] : (m ? m[1] : 'main')).run();
       } catch (e) {}
       return new Response(null, { status: 302, headers: { location: '/', 'cache-control': 'no-store' } });
     }
