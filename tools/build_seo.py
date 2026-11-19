@@ -143,3 +143,113 @@ out = page('gimboree-nahariya',
            'ג׳ימבורי בנהריה והגליל המערבי', intro, body, faq, items)
 open(f'{ROOT}/gimboree-nahariya.html', 'w', encoding='utf-8').write(out)
 print('gimboree-nahariya.html', len(gyms), 'places')
+
+
+# ---------- cafes page ----------
+def raw_card(c):
+    c = re.sub(r'<div class="c-name">(.*?)</div>', r'<h3>\1</h3>', c, count=1)
+    return c.replace('class="hrs"', '')
+
+cafes_raw = cards_from('v-cafes', 'v-news')
+cafes = []
+for c in cafes_raw:
+    p = parse(c)
+    kind = text(re.search(r'<div class="c-kind">(.*?)</div>', c).group(1))
+    m = re.search(r'<b>לילדים:</b>(.*?)</div>', c)
+    kids = text(m.group(1)) if m else ''
+    cafes.append(dict(p, kind=kind, kids=kids, raw=raw_card(c)))
+groups = [('נהריה', [c for c in cafes if c['city'] == 'נהריה']),
+          ('הגליל המערבי', [c for c in cafes if c['city'] != 'נהריה'])]
+body = '<nav class="toc" aria-label="לפי אזור">' + ''.join(f'<a href="#area-{i}">{n} ({len(l)})</a>' for i, (n, l) in enumerate(groups)) + '</nav>'
+for i, (n, l) in enumerate(groups):
+    title = 'בתי קפה עם מדשאה בנהריה' if n == 'נהריה' else 'בתי קפה עם מדשאה בגליל המערבי'
+    body += f'<h2 id="area-{i}">{title}</h2><div class="cards">' + ''.join(c['raw'] for c in l) + '</div>'
+
+def fri(c):
+    for d, h in c['hrs']:
+        if 'ו׳' in d and 'סגור' not in h:
+            return h
+    return None
+
+fri_open = [f"{c['name']} ({c['city']}, {fri(c)})" for c in cafes if fri(c)]
+cfaq = [
+    ("איפה יש בית קפה עם מדשאה בנהריה?", "בנהריה: " + ', '.join(f"{c['name']} ({c['addr']})" for c in groups[0][1]) + ". בכולם יש מדשאה או מקום נוח לשבת עם תינוקות ופעוטות."),
+    ("אילו בתי קפה בגליל המערבי מתאימים לילדים?", ', '.join(f"{c['name']} ב{c['city']}" for c in groups[1][1]) + ". לכל מקום מצוין בעמוד למה הוא מתאים לילדים."),
+    ("איזה בית קפה עם מדשאה פתוח ביום שישי?", "ביום שישי פתוחים: " + ', '.join(fri_open) + ". כדאי לוודא שעות לפני שמגיעים."),
+    ("מה הופך בית קפה למתאים לתינוקות?", "בעמוד הזה מופיעים רק מקומות עם מדשאה, צל או פינה נוחה לפרוש שמיכה, שבהם נעים לשבת עם תינוק או פעוט. לא מסעדות ערב ולא מקומות צפופים בלבד."),
+]
+citems = [{"@type": "CafeOrCoffeeShop" if 'קפה' in c['kind'] or 'מאפייה' in c['kind'] else "FoodEstablishment",
+           "name": c['name'], "address": {"@type": "PostalAddress", "streetAddress": c['addr'], "addressLocality": c['city'], "addressCountry": "IL"},
+           "description": (c['kind'] + '. ' + c['kids'])[:300]} for c in cafes]
+cintro = ('<p>בתי קפה, מאפיות ועגלות קפה בנהריה ובגליל המערבי שבהם יש מדשאה, צל או מקום נוח לשבת עם תינוקות ופעוטות. '
+          'לכל מקום מצוינים כתובת, שעות פתיחה, טלפון ולמה הוא מתאים לילדים.</p>'
+          '<p>גם <a href="/gimboree-nahariya">ג׳ימבורי בנהריה</a> ו<a href="/baby-activities-nahariya">פעילויות לתינוקות</a> מרוכזים אצלנו.</p>')
+open(f'{ROOT}/cafes-nahariya.html', 'w', encoding='utf-8').write(page(
+    'cafes-nahariya',
+    'בתי קפה עם מדשאה לתינוקות ופעוטות בנהריה והגליל המערבי | צריך כפר שלם',
+    'בתי קפה ומאפיות עם מדשאה בנהריה ובגליל המערבי שמתאימים לתינוקות ופעוטות: כתובות, שעות פתיחה, טלפונים ומה יש שם לילדים.',
+    'בתי קפה עם מדשאה לתינוקות ופעוטות', cintro, body, cfaq, citems))
+print('cafes-nahariya.html', len(cafes), 'places')
+
+
+# ---------- baby activities page ----------
+DAYS = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת']
+import datetime
+acts = []
+for m in re.finditer(r'data-date="(\d{4}-\d{2}-\d{2})"', idx):
+    d = m.group(1)
+    end = idx.find('</section>', m.end())
+    for attrs, inner in re.findall(r'<article class="act"([^>]*)>(.*?)</article>', idx[m.end():end], re.S):
+        if 'data-off' in attrs:
+            continue
+        amin = int((re.search(r'data-amin="(\d+)"', attrs) or [0, 0])[1] or 0)
+        name = text(re.search(r'<span class="name">(.*?)</span>', inner).group(1))
+        t = re.search(r'<span dir="ltr">(.*?)</span>', inner)
+        def grab(pat):
+            m2 = re.search(pat, inner, re.S)
+            return text(m2.group(1)) if m2 else ''
+        age = grab(r'גילאים: (.*?)(?:<br|$)')
+        place = grab(r'מיקום: (.*?)(?: · מחיר|<br)')
+        price = grab(r'מחיר: (.*?)(?:<br|$)').split(' · ')[0][:60]
+        acts.append(dict(date=d, wd=(datetime.date.fromisoformat(d).weekday() + 1) % 7, amin=amin, name=name,
+                         time=text(t.group(1)) if t else '', age=age, place=place, price=price))
+today = datetime.date.today().isoformat()
+window = [a for a in acts if a['date'] >= today]
+count = {}
+for a in window:
+    count[(a['wd'], a['name'])] = count.get((a['wd'], a['name']), 0) + 1
+weekly = {}
+for a in window:
+    if count[(a['wd'], a['name'])] >= 2 and a['amin'] <= 12:
+        weekly.setdefault(a['wd'], {}).setdefault(a['name'], a)
+
+def tkey(a):
+    m = re.match(r'(\d{1,2}):(\d{2})', a['time'])
+    return int(m.group(1)) * 60 + int(m.group(2)) if m else 9999
+
+body = '<nav class="toc" aria-label="לפי יום">' + ''.join(f'<a href="#day-{w}">{DAYS[w]}</a>' for w in sorted(weekly)) + '</nav>'
+aitems = []
+for w in sorted(weekly):
+    body += f'<h2 id="day-{w}">פעילויות לתינוקות ביום {DAYS[w]}</h2><div class="cards">'
+    for a in sorted(weekly[w].values(), key=tkey):
+        rows = ''.join(f'<div class="c-row"><b>{k}:</b> ' + (f'<span dir="ltr">{html.escape(v)}</span>' if k == 'שעה' else html.escape(v)) + '</div>' for k, v in
+                       [('שעה', a['time']), ('גילאים', a['age']), ('מקום', a['place']), ('מחיר', a['price'])] if v)
+        body += f'<article class="card"><h3>{html.escape(a["name"])}</h3><div class="c-kind">ימי {DAYS[w]}</div>{rows}</article>'
+        aitems.append({"@type": "Thing", "name": a['name'], "description": f"ימי {DAYS[w]} {a['time']}, {a['place']}. {a['age']}".strip()})
+    body += '</div>'
+free = sorted({re.split(r' – | \(', a['name'])[0] for w in weekly for a in weekly[w].values() if re.search(r'ללא עלות|חינם|כניסה חופשית', a['price'])})
+nurse = sorted({re.split(r' – | \(', a['name'])[0] for w in weekly for a in weekly[w].values() if 'הנקה' in a['name']})
+afaq = [
+    ("אילו פעילויות יש לתינוקות בנהריה?", "כל שבוע יש בנהריה ובגליל המערבי מפגשים קבועים לאמהות ותינוקות: גן עם אמא, מפגשי תנועה ומוזיקה, יוגה ועיסוי תינוקות, מפגשי הנקה ומפגשי שיח לאמהות. בעמוד הזה הם מסודרים לפי ימי השבוע, ובלוח הפעילויות באתר יש גם פעילויות חד־פעמיות."),
+    ("יש פעילויות חינמיות לאמהות בחופשת לידה?", ("כן, למשל: " + ', '.join(free) + ".") if free else "כן, בלוח הפעילויות אפשר לסנן לפי עלות ולראות רק פעילויות ללא עלות."),
+    ("איפה יש מפגשי הנקה בנהריה?", ("מפגשי הנקה קבועים: " + ', '.join(nurse) + ".") if nurse else "בלוח הפעילויות באתר מופיעים מפגשי הנקה כשהם מתקיימים."),
+    ("מאיזה גיל אפשר להגיע?", "בעמוד הזה מופיעות פעילויות שמתאימות כבר לתינוקות בשנה הראשונה. ליד כל פעילות מצוין טווח הגילים."),
+]
+aintro = ('<p>המפגשים הקבועים לאמהות ותינוקות בנהריה ובגליל המערבי, מסודרים לפי ימי השבוע: גן עם אמא, מוזיקה ותנועה, יוגה ועיסוי תינוקות, מפגשי הנקה ומפגשי שיח לאמהות בחופשת לידה.</p>'
+          '<p>חלק מהמפגשים הם סדרות עם מספר מפגשים מוגבל, והתאריכים המדויקים מופיעים בלוח.</p><p>הלוח המלא, כולל פעילויות חד־פעמיות וסינון לפי גיל, שעה ומחיר, נמצא <a href="/">בעמוד הראשי</a>. יש גם <a href="/gimboree-nahariya">ג׳ימבורי</a> ו<a href="/cafes-nahariya">בתי קפה עם מדשאה</a>.</p>')
+open(f'{ROOT}/baby-activities-nahariya.html', 'w', encoding='utf-8').write(page(
+    'baby-activities-nahariya',
+    'פעילויות לתינוקות ואמהות בנהריה והגליל המערבי – לפי ימים | צריך כפר שלם',
+    'מפגשים קבועים לאמהות ותינוקות בנהריה ובגליל המערבי לפי ימי השבוע: גן עם אמא, יוגה ועיסוי תינוקות, מוזיקה ותנועה ומפגשי הנקה, עם שעות, מקומות ומחירים.',
+    'פעילויות לתינוקות ואמהות בנהריה והגליל המערבי', aintro, body, afaq, aitems))
+print('baby-activities-nahariya.html', sum(len(v) for v in weekly.values()), 'weekly activities')
