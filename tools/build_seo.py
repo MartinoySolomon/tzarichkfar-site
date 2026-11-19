@@ -23,7 +23,7 @@ CARD_CSS = ('.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(2
             '.c-row{margin-bottom:6px}.card a{color:var(--link);font-weight:600}'
             '.card table{border-collapse:collapse;width:100%}.card td{padding:2px 4px;border-bottom:1px dotted var(--line);font-size:.88rem}'
             '.tel{white-space:nowrap;text-decoration:none}.where{font-size:.75rem;color:var(--muted)}'
-            '.toc{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.toc a{background:var(--accent);color:var(--accent-fg);border-radius:999px;padding:4px 12px;text-decoration:none;font-size:.9rem;font-weight:600}')
+            'main a,.card a{color:var(--ink)}.card a{text-decoration:none}.toc{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.toc a{background:var(--accent);color:var(--accent-fg);border-radius:999px;padding:4px 12px;text-decoration:none;font-size:.9rem;font-weight:600}')
 style = style.replace('</style>', CARD_CSS + '</style>')
 
 
