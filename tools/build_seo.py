@@ -321,8 +321,22 @@ print('hanukkah-nahariya.html', len(shows), 'shows')
 # keep the "last updated" line on the main page current
 _idx = f'{ROOT}/index.html'
 _s = open(_idx, encoding='utf-8').read()
+
+# day sections: "none" + empty note only when the day really has no activity
+def _norm(m):
+    sec = m.group(0)
+    has = '<article class="act"' in sec
+    head = re.match(r'<section class="([^"]*)"', sec)
+    cls = [c for c in head.group(1).split() if c != 'none']
+    if not has:
+        cls.append('none')
+        if 'class="empty"' not in sec:
+            sec = sec.replace('<div class="acts">', '<div class="acts">\n<div class="empty">אין פעילות מתוכננת</div>', 1)
+    else:
+        sec = re.sub(r'\n?<div class="empty">[^<]*</div>', '', sec)
+    return sec.replace(head.group(0), '<section class="%s"' % ' '.join(cls), 1)
+_s = re.sub(r'<section class="day[^"]*".*?</section>', _norm, _s, flags=re.S)
 _today = datetime.date.today().strftime('%d/%m/%Y')
 _s2 = re.sub(r'<p class="upd">עודכן לאחרונה: [^<]*</p>', f'<p class="upd">עודכן לאחרונה: {_today}</p>', _s, count=1)
-if _s2 != _s:
-    open(_idx, 'w', encoding='utf-8').write(_s2)
+open(_idx, 'w', encoding='utf-8').write(_s2)
 print('index.html updated date', _today)
