@@ -1222,7 +1222,7 @@ function fb(){try{var r=document.createRange();r.selectNodeContents(document.get
     var v=(location.hash||'#').slice(1);if(v&&v!=='nov'&&v!=='dec'){setTimeout(showTabs,0);return;}
     var r=f.getBoundingClientRect();if(!r.width){setTimeout(tryShow,1000);return;}
     shown=true;h.hidden=false;place();
-    window.addEventListener('scroll',place,{passive:true});window.addEventListener('resize',place);
+    window.addEventListener('scroll',place,{passive:true});window.addEventListener('resize',place);window.addEventListener('hashchange',function(){setTimeout(place,50);});
     h.addEventListener('click',hide);f.addEventListener('click',hide);
   }
   setTimeout(s1?showTabs:tryShow,2200);
