@@ -317,3 +317,12 @@ open(f'{ROOT}/hanukkah-nahariya.html', 'w', encoding='utf-8').write(page(
     'הצגות ומופעי חנוכה 2026 לפעוטות וילדים בנהריה, עם תאריכים, שעות, גילאים ומחירים, ורעיונות לפעילויות עם תינוקות בימי החג.',
     'חנוכה 2026 בנהריה: הצגות ופעילויות לפעוטות ותינוקות', hintro, body, hfaq, eitems))
 print('hanukkah-nahariya.html', len(shows), 'shows')
+
+# keep the "last updated" line on the main page current
+_idx = f'{ROOT}/index.html'
+_s = open(_idx, encoding='utf-8').read()
+_today = datetime.date.today().strftime('%d/%m/%Y')
+_s2 = re.sub(r'<p class="upd">עודכן לאחרונה: [^<]*</p>', f'<p class="upd">עודכן לאחרונה: {_today}</p>', _s, count=1)
+if _s2 != _s:
+    open(_idx, 'w', encoding='utf-8').write(_s2)
+print('index.html updated date', _today)
