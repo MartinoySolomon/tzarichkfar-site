@@ -29,6 +29,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .top{padding-block:20px 8px;display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
 .theme{font:inherit;font-size:.85rem;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;white-space:nowrap;flex:none}
 h1{font-family:var(--f-display);font-size:clamp(1.5rem,5vw,2.1rem);margin:0;color:var(--ink);text-wrap:balance;font-weight:400}
+.ctag{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-inline-start:4px;vertical-align:middle}.ctag.ws{background:#efe6fb;color:#5b3d8f}.ctag.cl{background:#e3f3ea;color:#2e6b48}:root[data-theme="dark"] .ctag.ws{background:#3b2f52;color:#dccdf5}:root[data-theme="dark"] .ctag.cl{background:#24412f;color:#c4ead3}
 .playsec{font-size:1.05rem;margin:22px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--line,#eadfe3)}
 .sub{color:var(--muted);margin:4px 0 0;font-size:.95rem}
 .stick{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--mh,0px));z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
@@ -88,9 +89,9 @@ a.tel{color:var(--link);font-weight:600;white-space:nowrap;text-decoration:none}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
 .seg button{border:0;border-radius:0;background:transparent}
 .seg button[aria-pressed="true"],.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg)}
-.bnav{position:fixed;z-index:20;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px max(8px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
-.bnav a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--muted);font-size:.8rem;font-weight:600}
-.bnav i{width:52px;height:30px;border-radius:999px;display:flex;align-items:center;justify-content:center}
+.bnav{position:fixed;z-index:20;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);padding:8px max(8px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.bnav a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--muted);font-size:.74rem;font-weight:600;white-space:nowrap}
+.bnav i{width:44px;height:30px;border-radius:999px;display:flex;align-items:center;justify-content:center}
 .bnav a[aria-current="page"]{color:var(--ink);font-weight:700}
 .bnav a[aria-current="page"] i{background:var(--accent);color:var(--accent-fg)}
 .bnav svg,.bar svg{width:18px;height:18px;flex:none}
@@ -947,6 +948,24 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
   </div>
   <p class="note">שעות הפעילות והמחירים עשויים להשתנות. כדאי לבדוק לפני ההגעה.</p>
 </div>
+<div class="view" id="v-classes">
+  <p class="sub" style="margin-top:16px">סדנאות וחוגים שבהם ההורה משתתף יחד עם הילד</p>
+  <h2 class="playsec">סדנאות</h2>
+  <div class="cards">
+    <article class="card"><div class="c-name">גילגולטף לגיל הרך</div><div class="c-kind">סדנת תנועה והתפתחות</div> <span class="where">מטה אשר</span> <span class="ctag ws">סדנה · 10 מפגשים</span>
+      <div class="c-row"><b>מתי:</b> ימי רביעי, 16:30</div><div class="c-row"><b>תקופה:</b> 21.10.2026 – 1.2.2027</div><div class="c-row"><b>מקום:</b> מועדון קיבוץ מצובה</div><div class="c-row"><b>גילאים:</b> הגיל הרך</div><div class="c-row"><b>מחיר:</b> 400–500 ₪ לסדנה (לפי עמוד ההרשמה)</div><div class="c-row"><b>פרטים והרשמה:</b> <a href="https://www.matnasmatteasher.org.il/events/340/" target="_blank" rel="noopener">באתר מרכז קהילתי מטה אשר</a></div></article>
+    <article class="card"><div class="c-name">עיסוי תינוקות</div><div class="c-kind">סדנה לאמהות ותינוקות</div> <span class="where">קריית מוצקין</span> <span class="ctag ws">סדנה · 3 מפגשים</span>
+      <div class="c-row"><b>מתי:</b> ימי שלישי, 9:00</div><div class="c-row"><b>מקום:</b> מרחב צעדים, דרך עכו 271, קריית מוצקין</div><div class="c-row"><b>גילאים:</b> מגיל 3 שבועות עד זחילה</div><div class="c-row"><b>מה עושים:</b> עיסוי להקלה על גזים, שינה והרגעה, ומעגל אמהות בכל מפגש</div><div class="c-row"><b>פרטים והרשמה:</b> <a href="https://www.tzeadim.space" target="_blank" rel="noopener">באתר המקום</a> · <a class="tel" href="tel:+972524781086" dir="ltr">052-478-1086</a></div></article>
+    <article class="card"><div class="c-name">ליווי התפתחותי לתינוקות</div><div class="c-kind">סדנה לאמהות ותינוקות</div> <span class="where">קריית מוצקין</span> <span class="ctag ws">סדנה · 4 מפגשים</span>
+      <div class="c-row"><b>מתי:</b> ימי שלישי, 10:00</div><div class="c-row"><b>מקום:</b> מרחב צעדים, דרך עכו 271, קריית מוצקין</div><div class="c-row"><b>מה עושים:</b> זמן בטן, התהפכות וישיבה, עם מוזיקה, תנועה ומרקמים</div><div class="c-row"><b>פרטים והרשמה:</b> <a href="https://www.tzeadim.space" target="_blank" rel="noopener">באתר המקום</a> · <a class="tel" href="tel:+972524781086" dir="ltr">052-478-1086</a></div></article>
+  </div>
+  <h2 class="playsec">חוגים</h2>
+  <div class="cards">
+    <article class="card"><div class="c-name">פעילות הורה וילד – מרחב צעדים</div><div class="c-kind">חוג בוקר עם גננת</div> <span class="where">קריית מוצקין</span> <span class="ctag cl">חוג · מנוי חודשי</span>
+      <div class="c-row"><b>מתי:</b> 9:00–11:00, פעם בשבוע בימי ראשון או פעמיים בשבוע בימי שני וחמישי</div><div class="c-row"><b>מקום:</b> מרחב צעדים, דרך עכו 271, קריית מוצקין</div><div class="c-row"><b>מה עושים:</b> משחק חופשי, מפגש עם שירים, תנועה וספרים, ופעילות סנסורית. קבוצה של עד 10 ילדים</div><div class="c-row"><b>פרטים והרשמה:</b> <a href="https://www.tzeadim.space" target="_blank" rel="noopener">באתר המקום</a> · <a class="tel" href="tel:+972524781086" dir="ltr">052-478-1086</a></div></article>
+  </div>
+  <p class="note">בהרבה סדנאות וחוגים אפשר להצטרף גם אחרי שהתחילו. כדאי לברר מול המקום.</p>
+</div>
 <div class="view" id="v-cafes">
   <p class="sub" style="margin-top:16px">עגלות קפה ובתי קפה ידידותיים לפעוטות</p>
   <p class="note" style="margin-top:6px;text-align:start">בתי הקפה כאן ידידותיים לילדים: יש בהם מדשאה או מקום נוח ומוצל לפרוס שמיכה ולשבת עם הילדים.</p>
@@ -994,7 +1013,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
   <div class="row"><a class="call" id="swa" href="#" hidden>וואטסאפ</a><button type="button" id="scopy">העתקת המספר</button><button type="button" id="sclose">סגירה</button></div>
   <p class="hint" id="shint">אפשר להעתיק את המספר ולהדביק באפליקציית הטלפון.</p></div></div>
 <div class="toast" id="toast" role="status" hidden></div>
-<nav class="bnav" id="bnav" aria-label="ניווט"><a href="#nov" data-t="act" id="nact"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></i>פעילויות</a><a href="#play" data-t="play"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="9" r="4"/><rect x="12" y="11" width="8" height="8" rx="2"/></svg></i>ג'ימבורי</a><a href="#cafes" data-t="cafes"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h2a2 2 0 0 1 0 4h-2"/></svg></i>בתי קפה</a><a href="#news" data-t="news"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7.5l8.5 6 8.5-6"/></svg></i>ניוזלטר</a><a href="#join" data-t="join"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg></i>הוסיפי</a></nav>
+<nav class="bnav" id="bnav" aria-label="ניווט"><a href="#nov" data-t="act" id="nact"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></i>פעילויות</a><a href="#play" data-t="play"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="9" r="4"/><rect x="12" y="11" width="8" height="8" rx="2"/></svg></i>ג'ימבורי</a><a href="#classes" data-t="classes"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 20c0-2.5 1-4.5 3-4.5s3 1.5 3 4"/></svg></i>חוגים</a><a href="#cafes" data-t="cafes"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h2a2 2 0 0 1 0 4h-2"/></svg></i>בתי קפה</a><a href="#news" data-t="news"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7.5l8.5 6 8.5-6"/></svg></i>ניוזלטר</a><a href="#join" data-t="join"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg></i>הוסיפי</a></nav>
 <div class="newsbar" id="newsbar" role="region" aria-label="הרשמה לעדכון השבועי" hidden><div class="nbt"><b>מה קורה השבוע באזור?</b><small>ישר למייל, כל יום חמישי</small></div><a href="#news" class="nbgo" id="newsbargo">אני רוצה</a><button type="button" id="newsbarx" aria-label="סגירה">&times;</button></div>
 <button type="button" class="sharefab" id="share" aria-label="שלחי את האתר לחברה"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4M8.6 13.4l6.8 4"/></svg></button>
 <div class="sheetbg" id="fbbg" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fbtitle"><button type="button" class="fbx" id="fbx" aria-label="סגירה">×</button><h3 id="fbtitle"></h3><p class="hint" style="font-size:.86rem">היית שם? סמני מה שמתאים. אפשר לשלוח גם בלי לסמן כלום. המשוב אנונימי.</p><p class="fbq" id="fbq0">איך היה בסך הכל?</p><div class="fbopts" id="fball" role="group" aria-labelledby="fbq0"></div><p class="fbq" id="fbq1">לאיזה גיל זה התאים?</p><div class="fbopts" id="fbages" role="group" aria-labelledby="fbq1"></div><p class="fbq" id="fbq2">מה היה טוב?</p><div class="fbopts" id="fbgood" role="group" aria-labelledby="fbq2"></div><p class="fbq" id="fbq3">כדאי לדעת</p><div class="fbopts" id="fbnote" role="group" aria-labelledby="fbq3"></div><p class="hint" id="fbmsg" role="status"></p><div class="row"><button type="button" class="call" id="fbsend">הייתי שם, שליחה</button><button type="button" id="fbclose">ביטול</button></div><p class="fbthanks" id="fbthanks" role="status" hidden>תודה! זה עוזר לאמהות אחרות 💜</p></div></div>
@@ -1008,7 +1027,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
   var MON={nov:{y:2026,m:10,n:'נובמבר'},dec:{y:2026,m:11,n:'דצמבר'},jan:{y:2027,m:0,n:'ינואר'}};var MK=['nov','dec','jan'];function isM(v){return MK.indexOf(v)>-1;}
   var DN=['א','ב','ג','ד','ה','ו','ש'], DNF=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
   var AGE=[[0,12],[12,36],[36,72]];
-  var views=['nov','dec','jan','play','cafes','news','join','legal'];
+  var views=['nov','dec','jan','play','classes','cafes','news','join','legal'];
   var lastRendered=null;
   
   var now=new Date();
