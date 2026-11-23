@@ -257,7 +257,7 @@ print('baby-activities-nahariya.html', sum(len(v) for v in weekly.values()), 'we
 
 
 # ---------- hanukkah page ----------
-HSTART, HEND = '2026-12-04', '2026-12-12'
+HSTART, HEND = '2026-12-01', '2026-12-13'
 shows = []
 for m in re.finditer(r'data-date="(\d{4}-\d{2}-\d{2})"', idx):
     d = m.group(1)
@@ -266,7 +266,7 @@ for m in re.finditer(r'data-date="(\d{4}-\d{2}-\d{2})"', idx):
     end = idx.find('</section>', m.end())
     for attrs, inner in re.findall(r'<article class="act"([^>]*)>(.*?)</article>', idx[m.end():end], re.S):
         name = text(re.search(r'<span class="name">(.*?)</span>', inner).group(1))
-        if not name.startswith('חנוכה'):
+        if 'חנוכה' not in name:
             continue
         def grab(pat):
             m2 = re.search(pat, inner, re.S)
