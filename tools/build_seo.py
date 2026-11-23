@@ -258,6 +258,7 @@ print('baby-activities-nahariya.html', sum(len(v) for v in weekly.values()), 'we
 
 # ---------- hanukkah page ----------
 HSTART, HEND = '2026-12-01', '2026-12-13'
+CITIES = ['נהריה', 'עכו', 'שלומי', 'מעלות-תרשיחא', 'כפר ורדים', 'מעלות']
 shows = []
 for m in re.finditer(r'data-date="(\d{4}-\d{2}-\d{2})"', idx):
     d = m.group(1)
@@ -277,29 +278,52 @@ for m in re.finditer(r'data-date="(\d{4}-\d{2}-\d{2})"', idx):
         place = grab(r'מיקום: (.*?)(?: · מחיר|<br)')
         price = grab(r'מחיר: (.*?)(?:<br|$)').split(' · ')[0]
         link = re.search(r'הרשמה:.*?<a href="([^"]+)"', inner, re.S)
-        shows.append(dict(date=d, name=name.replace('חנוכה: ', ''), time=t, age=age, place=place, price=price,
+        dp = re.search(r'data-place="([^"]*)"', attrs)
+        dp = html.unescape(dp.group(1)) if dp else place
+        city = next((c for c in CITIES if c in dp or c in place), dp.split(',')[-1].strip())
+        shows.append(dict(city=city, date=d, name=name.replace('חנוכה: ', ''), time=t, age=age, place=place, price=price,
                           link=html.unescape(link.group(1)) if link else ''))
 DAYNAME = ['שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת', 'ראשון']
 def hdate(d):
     dt = datetime.date.fromisoformat(d)
     return f'יום {DAYNAME[dt.weekday()]}, {dt.day}.{dt.month}'
-body = '<h2>הצגות ומופעי חנוכה לפעוטות וילדים</h2><div class="cards">'
+def _tm(t):
+    m = re.match(r'(\d{1,2}):(\d{2})', t)
+    return int(m.group(1)) * 60 + int(m.group(2)) if m else 9999
+shows.sort(key=lambda x: (x['date'], _tm(x['time'])))
+cities = sorted({sh['city'] for sh in shows}, key=lambda c: (c != 'נהריה', -sum(1 for x in shows if x['city'] == c), c))
+body = '<h2>הצגות ומופעי חנוכה לפעוטות וילדים</h2>'
+body += ('<div class="hf" role="group" aria-label="סינון לפי עיר"><button type="button" class="on" data-c="">כל הערים</button>'
+         + ''.join(f'<button type="button" data-c="{html.escape(c)}">{html.escape(c)}</button>' for c in cities) + '</div>')
 eitems = []
+cur = None
 for sh in shows:
+    if sh['date'] != cur:
+        if cur:
+            body += '</div></section>'
+        cur = sh['date']
+        body += f'<section class="hday"><h3 class="hd">{hdate(cur)}</h3><div class="cards">'
     rows = ''.join(f'<div class="c-row"><b>{k}:</b> ' + (f'<span dir="ltr">{html.escape(v)}</span>' if k == 'שעה' else html.escape(v)) + '</div>'
-                   for k, v in [('מתי', hdate(sh['date'])), ('שעה', sh['time']), ('גילאים', sh['age']), ('מקום', sh['place']), ('מחיר', sh['price'])] if v)
+                   for k, v in [('שעה', sh['time']), ('גילאים', sh['age']), ('מקום', sh['place']), ('מחיר', sh['price'])] if v)
     lk = f'<div class="c-row"><a href="{html.escape(sh["link"])}" rel="noopener">לפרטים והרשמה</a></div>' if sh['link'] else ''
-    body += f'<article class="card"><h3>{html.escape(sh["name"])}</h3><div class="c-kind">חנוכה</div>{rows}{lk}</article>'
+    body += f'<article class="card" data-city="{html.escape(sh["city"])}"><h3>{html.escape(sh["name"])}</h3><div class="c-kind">{html.escape(sh["city"])}</div>{rows}{lk}</article>'
     st = re.match(r'(\d{1,2}):(\d{2})', sh['time'])
     ev = {"@type": "Event", "name": sh['name'], "startDate": sh['date'] + (f"T{int(st.group(1)):02d}:{st.group(2)}:00+02:00" if st else ''),
           "eventStatus": "https://schema.org/EventScheduled", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-          "location": {"@type": "Place", "name": sh['place'], "address": {"@type": "PostalAddress", "addressLocality": "נהריה", "addressCountry": "IL"}},
+          "location": {"@type": "Place", "name": sh['place'], "address": {"@type": "PostalAddress", "addressLocality": sh['city'], "addressCountry": "IL"}},
           "description": f"{sh['name']} – {sh['age']}. {sh['price']}".strip(), "isAccessibleForFree": False}
     pm = re.search(r'(\d+)\s*₪', sh['price'])
     if pm:
         ev["offers"] = {"@type": "Offer", "price": pm.group(1), "priceCurrency": "ILS", "url": sh['link'] or f'{SITE}/hanukkah-nahariya', "availability": "https://schema.org/InStock"}
     eitems.append(ev)
-body += '</div>'
+if cur:
+    body += '</div></section>'
+body += ('<style>.hf{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}.hf button{font:inherit;font-size:.9rem;font-weight:600;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:5px 14px;cursor:pointer}'
+         '.hf button.on{background:var(--accent);color:var(--accent-fg);border-color:transparent}.hf button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}'
+         '.hd{font-family:var(--f-display);font-size:1.15rem;margin:22px 0 0;color:var(--ink)}.hday[hidden],.card[hidden]{display:none}</style>'
+         '<script>(function(){var bs=document.querySelectorAll(".hf button");bs.forEach(function(b){b.addEventListener("click",function(){var c=b.getAttribute("data-c");'
+         'bs.forEach(function(x){x.classList.toggle("on",x===b);x.setAttribute("aria-pressed",x===b?"true":"false");});'
+         'document.querySelectorAll(".hday").forEach(function(s){var any=false;s.querySelectorAll(".card").forEach(function(k){var ok=!c||k.getAttribute("data-city")===c;k.hidden=!ok;if(ok)any=true;});s.hidden=!any;});});});})();</script>')
 body += ('<h2>פעילויות לתינוקות בחנוכה</h2><p>רוב המפגשים הקבועים לאמהות ותינוקות ממשיכים בחנוכה כרגיל, כמו גן עם אמא, מפגשי תנועה ומוזיקה ומפגשי הנקה. '
          'כל המפגשים לפי ימים נמצאים ב<a href="/baby-activities-nahariya">עמוד הפעילויות לתינוקות</a>, וכדאי לוודא מול המארגנת שהמפגש מתקיים בחג.</p>'
          '<h2>עוד רעיונות לימי החג</h2><p><a href="/gimboree-nahariya">ג׳ימבורי בנהריה</a>, ברוב המתנ״סים בכניסה חופשית, ו<a href="/cafes-nahariya">בתי קפה עם מדשאה</a> לבוקר יפה בחוץ.</p>')
@@ -309,7 +333,7 @@ hfaq = [
     ("כמה עולה הצגת חנוכה בנהריה?", "רוב מופעי החנוכה של העירייה עולים 20 ₪ לכרטיס, וכל משתתף צריך כרטיס. המחיר של כל מופע מצוין ליד הפרטים שלו."),
     ("יש פעילויות לתינוקות בחנוכה?", "כן. רוב המפגשים הקבועים לאמהות ותינוקות ממשיכים כרגיל בחנוכה. הרשימה המלאה לפי ימים נמצאת בעמוד הפעילויות לתינוקות באתר."),
 ]
-hintro = ('<p>חנוכה תשפ״ז מתחיל ביום שישי, 4 בדצמבר 2026, ונמשך עד מוצאי שבת, 12 בדצמבר. כאן ריכזנו את הצגות ומופעי החנוכה לפעוטות ולילדים בנהריה, '
+hintro = ('<p>חנוכה תשפ״ז מתחיל ביום שישי, 4 בדצמבר 2026, ונמשך עד מוצאי שבת, 12 בדצמבר. כאן ריכזנו לפי תאריכים את הצגות ומופעי החנוכה לפעוטות ולילדים בנהריה ובגליל המערבי (אפשר לסנן לפי עיר), '
           'יחד עם רעיונות לבילוי עם תינוקות בימי החג.</p><p>כדאי להזמין כרטיסים מראש, כי למופעים רבים המקומות מוגבלים.</p>')
 open(f'{ROOT}/hanukkah-nahariya.html', 'w', encoding='utf-8').write(page(
     'hanukkah-nahariya',
