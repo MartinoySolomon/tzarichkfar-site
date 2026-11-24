@@ -102,6 +102,14 @@ async function api(request, env) {
   const known = await siteNames(env, request);
   const now = Date.now();
 
+  if (url.pathname === '/api/hs') {
+    // home-screen launches: anonymous daily counts only
+    const day = new Date(now + 2 * 3600000).toISOString().slice(0, 10);
+    const tags = b.first === true ? ['hs-open', 'hs-new'] : ['hs-open'];
+    await env.DB.batch(tags.map((t) => env.DB.prepare('INSERT INTO hits (day, tag, n) VALUES (?, ?, 1) ON CONFLICT(day, tag) DO UPDATE SET n = n + 1').bind(day, t)));
+    return json({ ok: true });
+  }
+
   if (url.pathname === '/api/fb') {
     if (typeof b.item !== 'string' || !known.has(b.item)) return json({ error: 'item' }, 400);
     const recent = await env.DB.prepare('SELECT COUNT(*) AS n FROM fb WHERE ts > ?').bind(now - 3600000).first();
