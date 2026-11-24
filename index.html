@@ -182,6 +182,7 @@ body{overflow-x:clip}
 .legal p,.legal ul{margin:4px 0}.legal ul{padding-inline-start:20px}.legal li{margin-block:3px}
 .legal>:last-child{margin-bottom:14px}
 .fnote{font-size:.84rem;color:var(--muted);margin:8px 0 4px}
+.fbbtn.wabtn{display:inline-flex;align-items:center;gap:5px}.fbbtn.wabtn svg{width:15px;height:15px;fill:#25a35a;flex:none}
 .fbrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:8px}
 .fbbtn{font:inherit;font-size:.84rem;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 14px;cursor:pointer}
 .fbbtn[disabled]{background:var(--surface2);cursor:default}
@@ -966,7 +967,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
 </div>
 <div class="view" id="v-news">
   <div class="joinbox" id="a2hsbox2"><h2>📲 שמירת האתר במסך הבית</h2><p>כדי שהלוח יהיה תמיד במרחק לחיצה, אפשר להוסיף אותו כקיצור דרך במסך הבית של הטלפון, כמו אפליקציה.</p><div style="text-align:right;display:grid;gap:10px;font-size:.92rem"><div><b>באייפון:</b> בספארי, לחצי על סמל השיתוף (ריבוע עם חץ למעלה), גללי ובחרי &quot;הוסף למסך הבית&quot;.</div><div><b>באנדרואיד:</b> בכרום, לחצי על שלוש הנקודות ⋮ ובחרי &quot;הוספה למסך הבית&quot; או &quot;התקנה&quot;. בדפדפן של סמסונג: תפריט ☰ ואז &quot;הוספת דף אל&quot; ← &quot;מסך הבית&quot;.</div></div><p class="addalt">אם פתחת את האתר מתוך וואטסאפ או פייסבוק והאפשרות לא מופיעה, פתחי אותו קודם בדפדפן.</p></div>
-  <div class="joinbox" id="wabox"><h2>💬 ערוץ הוואטסאפ שלנו</h2><p>כל יום חמישי מה קורה השבוע, ועדכונים על הצגות וסדנאות חדשות. רק אנחנו מפרסמות בערוץ, ואף אחת לא רואה את המספר שלך.</p><a class="cta" href="https://whatsapp.com/channel/0029VbA3B4T3bbV3KY2Pjc36" rel="noopener" target="_blank">הצטרפי לערוץ</a></div>
+  <div class="joinbox" id="wabox"><h2>💬 ערוץ הוואטסאפ שלנו</h2><p>מה עושים השבוע עם הקטנטנים? כל חמישי התשובה מחכה לך בוואטסאפ 💜 ובין לבין, הצגות חדשות, סדנאות ופעילויות שלא כדאי לפספס.</p><a class="cta" href="https://whatsapp.com/channel/0029VbA3B4T3bbV3KY2Pjc36" rel="noopener" target="_blank">הצטרפי לערוץ</a></div>
   <div class="joinbox" id="newsbox"><h2>עדכון שבועי במייל</h2><p>כל יום חמישי, הפעילויות של השבוע הקרוב ישירות למייל, ופעם בכמה זמן גם טיפ קטן.</p>
 <form id="newsf" novalidate><label class="fld"><span>כתובת מייל <b>*</b></span><input type="email" id="nmail" dir="ltr" autocomplete="email" inputmode="email"></label>
 <label class="consent"><input type="checkbox" id="nok"><span>אני מאשרת לקבל מ״צריך כפר שלם״ עדכון שבועי במייל עם פעילויות וטיפים. אפשר להסיר את עצמי בכל עת.</span></label>
@@ -1273,7 +1274,9 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
     setTimeout(function(){if($('sheetbg').hidden){$('a2hsbg').hidden=false;if(!TESTMODE)mark();}},1800);
   })();
   window.addEventListener('hashchange',render);
-  (function(){var h=(location.hash||'').slice(1);if((h===''||isM(h))&&mkOf(TODAY)===curView()){st.sel=TODAY;st.go=TODAY;st.quiet=true;}})();
+  (function(){var dm=/[?&]d=(\d{4}-\d{2}-\d{2})(&|$)/.exec(location.search),dk=dm&&mkOf(dm[1]);
+    if(dk){try{history.replaceState(null,'',location.pathname+'#'+dk);}catch(e){location.hash='#'+dk;}st.sel=dm[1];st.go=dm[1];st.pm=dk;return;}
+    var h=(location.hash||'').slice(1);if((h===''||isM(h))&&mkOf(TODAY)===curView()){st.sel=TODAY;st.go=TODAY;st.quiet=true;}})();
   render();st.quiet=false;
 })();
 </script>
@@ -1488,4 +1491,25 @@ document.getElementById('newsbargo').addEventListener('click',function(){bar.hid
 window.addEventListener('hashchange',function(){if((location.hash||'')==='#news')bar.hidden=true;});
 setTimeout(tryShow,visits>1?8000:20000);})();
 </script>
-<script>setTimeout(function(){document.documentElement.classList.add('ready');},2500);</script></body></html>
+<script>setTimeout(function(){document.documentElement.classList.add('ready');},2500);</script><script>(function(){
+var SITE='https://tzarichkfar.com/',DN=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+var ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>';
+function clean(el){var c=el.cloneNode(true);[].forEach.call(c.querySelectorAll('.fbrow,.fbinfo,.wabtn'),function(x){x.remove();});return c;}
+function grab(txt,label){var m=new RegExp(label+':\\s*([^\\n·]+)').exec(txt);return m?m[1].trim():'';}
+function lines(el){var c=clean(el);c.querySelectorAll('br').forEach(function(b){b.replaceWith('\n');});c.querySelectorAll('.c-row,tr,.c-name,.name').forEach(function(r){r.append('\n');});return c.textContent.replace(/[ \t]+/g,' ');}
+function actText(a){var t=lines(a),name=(a.querySelector('.name')||{}).textContent||'',sec=a.closest('section.day'),iso=sec&&sec.getAttribute('data-date'),out=['*'+name.trim()+'*'];
+  if(iso){var d=new Date(iso+'T12:00:00');var tm=(a.querySelector('span[dir="ltr"]')||{}).textContent||'';out.push('📅 יום '+DN[d.getDay()]+', '+d.getDate()+'.'+(d.getMonth()+1)+(tm?' · '+tm.trim():''));}
+  var pl=grab(t,'מיקום');if(pl)out.push('📍 '+pl);var pr=grab(t,'מחיר');if(pr)out.push('💰 '+pr);
+  out.push('','כל הפרטים ועוד פעילויות לקטנטנים בנהריה והגליל המערבי:',SITE+(iso?'?d='+iso:''));return out.join('\n');}
+function placeText(c,view){var t=lines(c),name=(c.querySelector('.c-name')||{}).textContent||'',out=['*'+name.trim()+'*'];
+  var ad=grab(t,'כתובת');if(ad)out.push('📍 '+ad);var en=grab(t,'כניסה');if(en)out.push('💰 כניסה: '+en);
+  out.push('',view==='play'?'עוד ג׳ימבורים ומשחקיות בנהריה והגליל המערבי:':'עוד בתי קפה עם מדשאה לקטנטנים:',SITE+'#'+view);return out.join('\n');}
+function add(el,fn){var r=el.querySelector('.fbrow');if(!r){r=document.createElement('div');r.className='fbrow';el.appendChild(r);}
+  var b=document.createElement('button');b.type='button';b.className='fbbtn wabtn';b.innerHTML=ICON+'<span>שיתוף</span>';b.setAttribute('aria-label','שיתוף בוואטסאפ');
+  b.addEventListener('click',function(){var u='https://wa.me/?text='+encodeURIComponent(fn());var w=window.open(u,'_blank','noopener');if(!w)location.href=u;});r.appendChild(b);}
+function init(){document.querySelectorAll('article.act').forEach(function(a){add(a,function(){return actText(a);});});
+  document.querySelectorAll('#v-play .card').forEach(function(c){add(c,function(){return placeText(c,'play');});});
+  document.querySelectorAll('#v-cafes .card').forEach(function(c){add(c,function(){return placeText(c,'cafes');});});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();</script>
+</body></html>
