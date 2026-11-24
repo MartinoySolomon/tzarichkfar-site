@@ -364,3 +364,23 @@ _today = datetime.date.today().strftime('%d/%m/%Y')
 _s2 = re.sub(r'<p class="upd">עודכן לאחרונה: [^<]*</p>', f'<p class="upd">עודכן לאחרונה: {_today}</p>', _s, count=1)
 open(_idx, 'w', encoding='utf-8').write(_s2)
 print('index.html updated date', _today)
+
+
+# ---------- activities.txt: plain list for the scheduled check ----------
+_lines = ['# כל הפעילויות באתר: תאריך | שעה | שם | מקום | קישור', '# נוצר אוטומטית מ-index.html']
+for m in re.finditer(r'<section class="day[^"]*" id="d[\d-]+" data-date="(\d{4}-\d{2}-\d{2})".*?</section>', idx, re.S):
+    for attrs, inner in re.findall(r'<article class="act"([^>]*)>(.*?)</article>', m.group(0), re.S):
+        nm = re.search(r'<span class="name">(.*?)</span>', inner)
+        tm = re.search(r'<span dir="ltr">(.*?)</span>', inner)
+        pl = re.search(r'data-place="([^"]*)"', attrs)
+        links = [html.unescape(u) for u in re.findall(r'href="(https?://[^"]+)"', inner)]
+        _lines.append(' | '.join([m.group(1), text(tm.group(1)) if tm else '', text(nm.group(1)) if nm else '',
+                                  html.unescape(pl.group(1)) if pl else '', ' '.join(links)]))
+for view, nxt in [('v-play', 'v-cafes'), ('v-cafes', 'v-news')]:
+    for c in cards_from(view, nxt):
+        nm = re.search(r'c-name">(.*?)</div>', c)
+        if nm:
+            _lines.append(' | '.join(['מקום-קבוע', '', text(nm.group(1)), 'ג׳ימבורי' if view == 'v-play' else 'בית קפה', '']))
+_body = sorted(l for l in _lines[2:] if l[:1].isdigit()) + [l for l in _lines[2:] if not l[:1].isdigit()]
+open(f'{ROOT}/activities.txt', 'w', encoding='utf-8').write('\n'.join(_lines[:2] + _body) + '\n')
+print('activities.txt', len(_lines) - 2, 'lines')
