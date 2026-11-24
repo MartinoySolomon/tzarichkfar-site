@@ -1004,8 +1004,8 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
 <div id="hint2" class="hint1 hint2" role="status" hidden>מידע על ג׳ימבורי ובתי קפה <b style="margin-inline-start:8px;text-decoration:underline">הבנתי</b><span class="harr harr2" aria-hidden="true" style="margin-inline-start:10px">&darr;</span></div>
 <div class="sheetbg" id="a2hsbg" hidden><div class="sheet" role="dialog" aria-label="הוספה למסך הבית"><div class="num" style="direction:rtl;font-size:1.3rem">רוצה את הלוח תמיד בהישג יד?</div><p class="hint" style="font-size:.9rem;color:var(--fg)">אפשר להוסיף אותו כקיצור דרך למסך הבית. כך עושים את זה:</p><div id="a2hst" style="text-align:right;display:grid;gap:10px;font-size:.92rem"></div><p class="hint">אם הקישור נפתח מתוך וואטסאפ, אינסטגרם או פייסבוק והאפשרות לא מופיעה, פתחי אותו קודם בדפדפן.</p><div class="row"><button type="button" class="call" id="a2hsok">הבנתי</button></div></div></div>
 <div class="sheetbg" id="sheetbg" hidden><div class="sheet" role="dialog" aria-label="יצירת קשר"><div id="sname" class="hint"></div><div class="num" id="snum"></div>
-  <div class="row"><a class="call" id="swa" href="#" hidden>וואטסאפ</a><button type="button" id="scopy">העתקת המספר</button><button type="button" id="sclose">סגירה</button></div>
-  <p class="hint" id="shint">אפשר להעתיק את המספר ולהדביק באפליקציית הטלפון.</p></div></div>
+  <div class="row"><a class="call" id="scall" href="#">חיוג</a><a class="call" id="swa" href="#" hidden>וואטסאפ</a><button type="button" id="scopy">העתקת המספר</button><button type="button" id="sclose">סגירה</button></div>
+  <p class="hint" id="shint"></p></div></div>
 <div class="toast" id="toast" role="status" hidden></div>
 <nav class="bnav" id="bnav" aria-label="ניווט"><a href="#nov" data-t="act" id="nact"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></i>פעילויות</a><a href="#play" data-t="play"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="9" r="4"/><rect x="12" y="11" width="8" height="8" rx="2"/></svg></i>ג'ימבורי</a><a href="#cafes" data-t="cafes"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h2a2 2 0 0 1 0 4h-2"/></svg></i>בתי קפה</a><a href="#news" data-t="news"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7.5l8.5 6 8.5-6"/></svg></i>ניוזלטר</a><a href="#join" data-t="join"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg></i>הוסיפי</a></nav>
 <div class="newsbar" id="newsbar" role="region" aria-label="הרשמה לעדכון השבועי" hidden><div class="nbt"><b>מה קורה השבוע באזור?</b><small>ישר למייל, כל יום חמישי</small></div><a href="#news" class="nbgo" id="newsbargo">אני רוצה</a><button type="button" id="newsbarx" aria-label="סגירה">&times;</button></div>
@@ -1229,8 +1229,9 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
   function openSheet(a){
     var num=a.textContent.trim(), d=num.replace(/\D/g,'');
     $('snum').textContent=num;
+    $('scall').href='tel:'+(a.getAttribute('href')||'').replace(/^tel:/,'');
     var wa=$('swa');if(d.indexOf('05')===0){wa.href='https://wa.me/972'+d.slice(1);wa.hidden=false;}else{wa.hidden=true;}
-    $('shint').textContent='אפשר להעתיק את המספר ולהדביק באפליקציית הטלפון.';
+    $('shint').textContent='';
     $('sheetbg').hidden=false;
   }
   document.addEventListener('click',function(e){var a=e.target.closest('a.tel');if(a){e.preventDefault();openSheet(a);}});
@@ -1503,6 +1504,7 @@ function actText(a){var t=lines(a),name=(a.querySelector('.name')||{}).textConte
   out.push('','כל הפרטים ועוד פעילויות לקטנטנים בנהריה והגליל המערבי:',SITE+(iso?'?d='+iso:''));return out.join('\n');}
 function placeText(c,view){var t=lines(c),name=(c.querySelector('.c-name')||{}).textContent||'',out=['*'+name.trim()+'*'];
   var ad=grab(t,'כתובת');if(ad)out.push('📍 '+ad);var en=grab(t,'כניסה');if(en)out.push('💰 כניסה: '+en);
+  var hr=[].map.call(c.querySelectorAll('table.hrs tr'),function(r){var td=r.querySelectorAll('td');return td.length>1?td[0].textContent.trim()+' '+td[1].textContent.trim():r.textContent.trim();}).filter(Boolean);if(hr.length==1)out.push('🕘 '+hr[0]);else if(hr.length){out.push('🕘 שעות פתיחה:');hr.forEach(function(x){out.push('   '+x);});}
   out.push('',view==='play'?'עוד ג׳ימבורים ומשחקיות בנהריה והגליל המערבי:':'עוד בתי קפה עם מדשאה לקטנטנים:',SITE+'#'+view);return out.join('\n');}
 function add(el,fn){var r=el.querySelector('.fbrow');if(!r){r=document.createElement('div');r.className='fbrow';el.appendChild(r);}
   var b=document.createElement('button');b.type='button';b.className='fbbtn wabtn';b.innerHTML=ICON+'<span>שיתוף</span>';b.setAttribute('aria-label','שיתוף בוואטסאפ');
