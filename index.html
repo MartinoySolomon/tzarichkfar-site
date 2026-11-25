@@ -1443,7 +1443,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
     $('a2hsbg').addEventListener('click',function(e){if(e.target===this)close();});
     window.openA2HS=function(){$('a2hsbg').hidden=false;try{$('a2hsok').focus();}catch(e){}};
     document.querySelectorAll('[data-a2hs]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();window.openA2HS();});});
-    /* כרטיס "שמרי אותנו במסך הבית": מופיע מהכניסה השנייה או אחרי פעולה באתר; אחרי סגירה חוזר אחרי שבוע, עד 3 פעמים */
+    /* כרטיס "שמרי אותנו במסך הבית": מופיע מהכניסה הראשונה (רק בטלפון ורק אם לא שמרו); אחרי סגירה חוזר אחרי שבוע, עד 3 פעמים */
     var deferred=null,DAY=86400000;
     function lg(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}}
     function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
@@ -1464,7 +1464,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
     $('a2how').addEventListener('click',showSteps);
     $('a2x').addEventListener('click',function(){var d=lg('a2_dismiss',{n:0,t:0});ls('a2_dismiss',{n:d.n+1,t:Date.now()});$('a2card').hidden=true;});
     if(/[?&]a2test=1(&|$)/.test(location.search)){setTimeout(function(){var c=$('a2card');if(deferred){$('a2install').hidden=false;}else{$('a2how').hidden=false;}c.hidden=false;},800);}
-    else if(visits>=2)setTimeout(showCard,1500);
+    else if(visits>=1)setTimeout(showCard,1500);
     document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.wabtn,.gobtn,[data-go]'))setTimeout(showCard,800);},true);
     window.showA2Card=function(){ls('a2_dismiss',{n:0,t:0});showCard();};
   })();
