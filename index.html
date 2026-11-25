@@ -85,6 +85,7 @@ a.tel{color:var(--link);font-weight:600;white-space:nowrap;text-decoration:none}
 /* toolbar */
 .bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding-block:4px 8px}
 .bar button,.chip,select{font:inherit;font-size:.88rem;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:5px 12px;cursor:pointer}
+.ms{display:none}@media (max-width:520px){#mseg .ml{display:none}#mseg .ms{display:inline}#mseg button{padding-inline:10px}}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
 .seg button{border:0;border-radius:0;background:transparent}
 .seg button[aria-pressed="true"],.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg)}
@@ -243,13 +244,13 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
 </head><body>
 <div class="wrap">
 <div class="brand"><div class="bwrap"><svg class="logo" viewBox="14 14 340 236" aria-hidden="true"><defs><filter id="rflogo" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5"/></filter></defs><g filter="url(#rflogo)" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><g stroke="#5cb85c"><path d="M18 150L92 84L166 150"/><path d="M32 144V232H152V144"/><path d="M78 232V192H106V232"/><rect x="46" y="166" width="22" height="22" rx="3" stroke-width="5"/><rect x="116" y="166" width="22" height="22" rx="3" stroke-width="5"/><path d="M50 114V84H66V100"/></g><g stroke="#f3a53b"><circle cx="180" cy="48" r="20"/><path d="M180 10v10M180 76v10M142 48h10M208 48h10M153 21l7 7M200 68l7 7M207 21l-7 7M153 75l7-7"/></g><g transform="translate(205,150) scale(1.15)"><g stroke="#4a9fd8"><circle cx="0" cy="0" r="10"/><path d="M0 10V42M0 20L-18 38M0 20L24 36M0 42l-10 28M0 42l10 28"/></g><g stroke="#e8709a"><circle cx="50" cy="2" r="10"/><path d="M50 14l-18 40h36zM42 54v16M58 54v16M50 26L26 36M50 26l16 14"/></g></g><path stroke="#4a9fd8" stroke-width="5" d="M15 262H345"/></g></svg><div class="btext"><h1 class="bname">צריך כפר שלם</h1><p class="slogan">מגדלים ילדים ביחד<br><span class="slogan2">הפעילויות, המקומות והקהילה של נהריה והגליל המערבי</span></p></div><button type="button" class="theme" id="theme" aria-pressed="false">מצב כהה</button></div><svg class="sky" aria-hidden="true" preserveAspectRatio="none"><defs><pattern id="skp" width="150" height="30" patternUnits="userSpaceOnUse"><path d="M0 30V18l9-8 9 8v12zM24 30V12l11-10 11 10v18zM52 30V20l8-7 8 7v10zM76 30V16l10-9 10 9v14zM102 30V21l8-7 8 7v10zM124 30V14l9-8 9 8v16z" fill="var(--line)"/></pattern></defs><rect width="100%" height="30" fill="url(#skp)"/></svg></div>
-<p class="upd">עודכן לאחרונה: 24/11/2026</p>
+<p class="upd">עודכן לאחרונה: 25/11/2026</p>
 <div class="stick" id="stick">
 
 
 <div id="tools" hidden>
   <div class="bar">
-    <div class="seg" id="mseg" role="group" aria-label="חודש"><button type="button" data-m="nov" aria-pressed="false">נובמבר</button><button type="button" data-m="dec" aria-pressed="false">דצמבר</button><button type="button" data-m="jan" aria-pressed="false">ינואר</button><button type="button" data-m="feb" aria-pressed="false">פברואר</button></div>
+    <div class="seg" id="mseg" role="group" aria-label="חודש"><button type="button" data-m="nov" aria-pressed="false"><span class="ml">נובמבר</span><span class="ms">נוב׳</span></button><button type="button" data-m="dec" aria-pressed="false"><span class="ml">דצמבר</span><span class="ms">דצמ׳</span></button><button type="button" data-m="jan" aria-pressed="false"><span class="ml">ינואר</span><span class="ms">ינו׳</span></button><button type="button" data-m="feb" aria-pressed="false"><span class="ml">פברואר</span><span class="ms">פבר׳</span></button></div>
     <div class="seg" role="group" aria-label="תצוגה"><button type="button" data-mode="list" aria-pressed="true">רשימה</button><button type="button" data-mode="cal" aria-pressed="false">לוח שנה</button></div>
     <span class="brk"></span><button type="button" class="go tool" id="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>היום</button>
     <span class="pick"><button type="button" class="tool" id="pickbtn" aria-expanded="false" aria-controls="picker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>בחירת תאריך</button>
@@ -1343,6 +1344,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
   $('pnext').addEventListener('click',function(){var i=MK.indexOf(st.pm);if(i<MK.length-1)st.pm=MK[i+1];renderPicker();});
   document.addEventListener('click',function(){if(!$('picker').hidden)openPicker(false);});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('picker').hidden){openPicker(false);$('pickbtn').focus();}});
+  document.querySelectorAll('#mseg button').forEach(function(b){var M=MON[b.dataset.m];if(M){var last=new Date(M.y,M.m+1,0);var ym=last.getFullYear()+'-'+pad(last.getMonth()+1)+'-'+pad(last.getDate());if(ym<TODAY)b.hidden=true;}});
   document.querySelectorAll('#mseg button').forEach(function(b){b.addEventListener('click',function(){st.sel=null;location.hash='#'+b.dataset.m;});});
   // today
   $('today').addEventListener('click',function(){
