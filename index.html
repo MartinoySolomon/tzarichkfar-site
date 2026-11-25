@@ -1460,7 +1460,8 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
     $('a2install').addEventListener('click',function(){if(!deferred)return;deferred.prompt();deferred.userChoice.then(function(r){if(r&&r.outcome==='accepted'){ls('a2_done',1);$('a2card').hidden=true;}deferred=null;});});
     $('a2how').addEventListener('click',function(){$('a2how').hidden=true;$(iOS?'a2ios':'a2and').hidden=false;});
     $('a2x').addEventListener('click',function(){var d=lg('a2_dismiss',{n:0,t:0});ls('a2_dismiss',{n:d.n+1,t:Date.now()});$('a2card').hidden=true;});
-    if(visits>=2)setTimeout(showCard,1500);
+    if(/[?&]a2test=1(&|$)/.test(location.search)){setTimeout(function(){var c=$('a2card');if(deferred){$('a2install').hidden=false;}else{$('a2how').hidden=false;}c.hidden=false;},800);}
+    else if(visits>=2)setTimeout(showCard,1500);
     document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.wabtn,.gobtn,[data-go]'))setTimeout(showCard,800);},true);
     window.showA2Card=function(){ls('a2_dismiss',{n:0,t:0});showCard();};
   })();
