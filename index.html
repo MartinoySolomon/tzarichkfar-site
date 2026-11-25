@@ -1456,7 +1456,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
     function showCard(){if(!canShow())return;var c=$('a2card');if(!c||!c.hidden)return;var hn=document.getElementById('hint'),h2=document.getElementById('hint2');if((hn&&!hn.hidden)||(h2&&!h2.hidden)){setTimeout(showCard,4000);return;}
       if(deferred){$('a2install').hidden=false;$('a2how').hidden=true;}else{$('a2how').hidden=false;$('a2install').hidden=true;}
       c.hidden=false;}
-    window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;if(!$('a2card').hidden&&$('a2how').hidden===false){$('a2install').hidden=false;$('a2how').hidden=true;}});
+    window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();if(/SamsungBrowser/i.test(UA))return;deferred=e;if(!$('a2card').hidden&&$('a2how').hidden===false){$('a2install').hidden=false;$('a2how').hidden=true;}});
     window.addEventListener('appinstalled',function(){ls('a2_done',1);$('a2card').hidden=true;});
     $('a2install').addEventListener('click',function(){if(!deferred){showSteps();return;}var d=deferred;deferred=null;try{d.prompt();d.userChoice.then(function(r){if(r&&r.outcome==='accepted'){ls('a2_done',1);$('a2card').hidden=true;}else{showSteps();}}).catch(showSteps);}catch(e){showSteps();}});
     var WV=/; wv\)/.test(UA)||/FBAN|FBAV|Instagram/.test(UA),SAM=/SamsungBrowser/i.test(UA);
