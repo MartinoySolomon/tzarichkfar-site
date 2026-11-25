@@ -86,6 +86,7 @@ a.tel{color:var(--link);font-weight:600;white-space:nowrap;text-decoration:none}
 .bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding-block:4px 8px}
 .bar button,.chip,select{font:inherit;font-size:.88rem;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:5px 12px;cursor:pointer}
 .ms{display:none}@media (max-width:520px){#mseg .ml{display:none}#mseg .ms{display:inline}#mseg button{padding-inline:10px}}
+@media (max-width:360px){#mseg button{padding-inline:7px}.seg button{padding-inline:10px}}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
 .seg button{border:0;border-radius:0;background:transparent}
 .seg button[aria-pressed="true"],.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg)}
@@ -264,7 +265,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
     <div class="grp" data-f="time"><span class="lbl">שעות</span><button type="button" class="chip" data-v="" aria-pressed="true">הכל</button><button type="button" class="chip" data-v="m" aria-pressed="false">בוקר</button><button type="button" class="chip" data-v="a" aria-pressed="false">אחה״צ וערב</button></div>
     <div class="grp" data-f="age"><span class="lbl">גיל הילד</span><button type="button" class="chip" data-v="" aria-pressed="true">הכל</button><button type="button" class="chip" data-v="0" aria-pressed="false">עד שנה</button><button type="button" class="chip" data-v="1" aria-pressed="false">שנה עד 3</button><button type="button" class="chip" data-v="2" aria-pressed="false">3 עד 6</button></div>
     <div class="grp" data-f="cost"><span class="lbl">עלות</span><button type="button" class="chip" data-v="" aria-pressed="true">הכל</button><button type="button" class="chip" data-v="free" aria-pressed="false">חינם</button><button type="button" class="chip" data-v="paid" aria-pressed="false">בתשלום</button></div>
-    <div class="grp" data-f="city"><span class="lbl">עיר</span><button type="button" class="chip" data-v="" aria-pressed="true">הכל</button><button type="button" class="chip" data-v="נהריה" aria-pressed="false">נהריה</button><button type="button" class="chip" data-v="עכו" aria-pressed="false">עכו</button><button type="button" class="chip" data-v="שלומי" aria-pressed="false">שלומי</button><button type="button" class="chip" data-v="מעלות-תרשיחא" aria-pressed="false">מעלות-תרשיחא</button><button type="button" class="chip" data-v="כפר ורדים" aria-pressed="false">כפר ורדים</button></div>
+    <div class="grp" data-f="city"><span class="lbl">עיר</span><button type="button" class="chip" data-v="" aria-pressed="true">הכל</button><button type="button" class="chip" data-v="נהריה" aria-pressed="false">נהריה</button><button type="button" class="chip" data-v="עכו" aria-pressed="false">עכו</button><button type="button" class="chip" data-v="שלומי" aria-pressed="false">שלומי</button><button type="button" class="chip" data-v="מעלות-תרשיחא" aria-pressed="false">מעלות-תרשיחא</button><button type="button" class="chip" data-v="כפר ורדים" aria-pressed="false">כפר ורדים</button><button type="button" class="chip" data-v="מטה אשר" aria-pressed="false">מטה אשר</button></div>
     <div class="grp"><label class="lbl" for="place">מקום</label><select id="place"><option value="">כל המקומות</option><option value="אורט מגשימים, נהריה">אורט מגשימים, נהריה</option><option value="גן עם אמא של שניר, שלומי (אזור תעשייה)">גן עם אמא של שניר, שלומי (אזור תעשייה)</option><option value="הגן הבוטני, נהריה">הגן הבוטני, נהריה</option><option value="קליניקת הנקה, לוחמי הגטאות">קליניקת הנקה, לוחמי הגטאות</option><option value="המרחב הבטוח, שלומי">המרחב הבטוח, שלומי</option><option value="המרכז לגיל הרך (שמעון פרס)">המרכז לגיל הרך (שמעון פרס)</option><option value="המרכז לגיל הרך, מעלות-תרשיחא">המרכז לגיל הרך, מעלות-תרשיחא</option><option value="ספריית מעלות (מתנ״ס גרס)">ספריית מעלות (מתנ״ס גרס)</option><option value="חלב ודבש, כפר ורדים">חלב ודבש, כפר ורדים</option><option value="מתנ״ס דור לדור, מעלות-תרשיחא">מתנ״ס דור לדור, מעלות-תרשיחא</option><option value="מרכז קהילתי כפר ורדים">מרכז קהילתי כפר ורדים</option><option value="המרכז למשפחה, כפר ורדים">המרכז למשפחה, כפר ורדים</option><option value="מארג, כפר ורדים">מארג, כפר ורדים</option><option value="מתנ״ס אלון, נהריה">מתנ״ס אלון, נהריה</option><option value="פרחי אהרון, עכו">פרחי אהרון, עכו</option><option value="היכל התרבות, עכו">היכל התרבות, עכו</option><option value="קניון סטאר נהריה">קניון סטאר נהריה</option><option value="קניון עופר הישן, נהריה">קניון עופר הישן, נהריה</option><option value="קפה יונה, נהריה">קפה יונה, נהריה</option><option value="הספרייה העירונית, נהריה">הספרייה העירונית, נהריה</option><option value="מידעטק, נהריה">מידעטק, נהריה</option><option value="היכל התרבות, נהריה">היכל התרבות, נהריה</option><option value="היכל התרבות, מעלות-תרשיחא">היכל התרבות, מעלות-תרשיחא</option><option value="מבצר יחיעם">מבצר יחיעם</option><option value="שלם – מרכז טיפול, נהריה">שלם – מרכז טיפול, נהריה</option><option value="מרכז קהילתי שבי צפון, נהריה">מרכז קהילתי שבי צפון, נהריה</option><option value="הלב של סיון, נהריה">הלב של סיון, נהריה</option><option value="ג'ימבורי בית שי, נהריה">ג'ימבורי בית שי, נהריה</option><option value="בשביל החושים, נהריה">בשביל החושים, נהריה</option><option value="מתנ״ס נהריה הירוקה, נהריה">מתנ״ס נהריה הירוקה, נהריה</option><option value="מתנ״ס אכזיב, נהריה">מתנ״ס אכזיב, נהריה</option><option value="מתנ״ס אוסישקין, נהריה">מתנ״ס אוסישקין, נהריה</option><option value="מתנ״ס איריס, נהריה">מתנ״ס איריס, נהריה</option><option value="מתנ״ס כצנלסון, נהריה">מתנ״ס כצנלסון, נהריה</option><option value="מועדון קיבוץ מצובה">מועדון קיבוץ מצובה</option><option value="פעוטון זית, בצת">פעוטון זית, בצת</option><option value="קניון עזריאלי, עכו">קניון עזריאלי, עכו</option><option value="ספריית קנדה, עכו">ספריית קנדה, עכו</option></select></div>
   </div>
 </div>
@@ -1208,7 +1209,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
   // city of each activity, taken from its "מיקום:" line (default: נהריה)
   document.querySelectorAll('.act').forEach(function(a){
     var m=a.textContent.match(/מיקום:\s*([^·\n]*)/),loc=((m&&m[1])||'')+' '+(a.dataset.place||'');
-    a.dataset.city=/עכו/.test(loc)?'עכו':/שלומי/.test(loc)?'שלומי':/מעלות/.test(loc)?'מעלות-תרשיחא':/כפר ורדים/.test(loc)?'כפר ורדים':'נהריה';
+    a.dataset.city=/עכו/.test(loc)?'עכו':/שלומי/.test(loc)?'שלומי':/מעלות/.test(loc)?'מעלות-תרשיחא':/כפר ורדים/.test(loc)?'כפר ורדים':/נהריה/.test(loc)?'נהריה':/מטה אשר|לוחמי הגטאות|בצת|מצובה|יחיעם|עברון|כברי|סער|שבי ציון|רגבה|בית העמק|געתון|אחיהוד|בן עמי|נתיב השיירה|עמקה|אושרת|כליל|לימן|גשר הזיו|אפק|שמרת/.test(loc)?'מטה אשר':'נהריה';
   });
   function mkOf(iso){var ym=iso.slice(0,7);return ym==='2026-11'?'nov':ym==='2026-12'?'dec':ym==='2027-01'?'jan':ym==='2027-02'?'feb':null;}var lastMonth=mkOf(TODAY)||(TODAY<'2026-11-01'?'nov':'feb');
   function curView(){var h=(location.hash||'').slice(1);if(views.indexOf(h)>-1)return h;return lastMonth;}
@@ -1317,7 +1318,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
     jmpT=setTimeout(function(){fix();jmpT=setTimeout(function(){fix();},300);},120);
   }
   var toastT=null;
-  function toast(msg){var t=$('toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true;},3500);}
+  function toast(msg){var t=$('toast'),h2=document.getElementById('hint2');t.textContent=msg;t.style.bottom=(h2&&!h2.hidden)?'calc(142px + env(safe-area-inset-bottom,0px))':'';t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true;},3500);}
   function goDate(iso){
     var mk=mkOf(iso);if(!mk)return;
     st.sel=iso;st.go=iso;st.pm=mk;
@@ -1423,8 +1424,6 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
   setHH();
   (function(){
     var KEY='a2hs_seen3';
-    var TESTMODE=false; /* זמני: מציג בכל פתיחה */
-    function seen(){try{if(localStorage.getItem(KEY))return true;}catch(e){}return /(?:^|; )a2hs_seen=1/.test(document.cookie||'');}
     function mark(){try{localStorage.setItem(KEY,'1');}catch(e){}try{document.cookie='a2hs_seen=1; max-age=31536000; path=/; SameSite=Lax; Secure';}catch(e){}}
     var UA=navigator.userAgent||'';
     var iOS=/iPhone|iPad|iPod/i.test(UA)||(/Macintosh/i.test(UA)&&navigator.maxTouchPoints>1);
@@ -1439,7 +1438,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
     else{tx=ANDTX;}
     tx+='<div style="color:var(--muted,#6b5a62);font-size:.85rem">אם השם בתפריט אצלך שונה, חפשי אפשרות עם המילים &quot;מסך הבית&quot; או &quot;קיצור דרך&quot;.</div>';
     $('a2hst').innerHTML=tx;
-    function close(){$('a2hsbg').hidden=true;if(!TESTMODE)mark();}
+    function close(){$('a2hsbg').hidden=true;mark();}
     $('a2hsok').addEventListener('click',close);
     $('a2hsbg').addEventListener('click',function(e){if(e.target===this)close();});
     window.openA2HS=function(){$('a2hsbg').hidden=false;try{$('a2hsok').focus();}catch(e){}};
