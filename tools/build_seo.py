@@ -313,8 +313,13 @@ for sh in shows:
           "location": {"@type": "Place", "name": sh['place'], "address": {"@type": "PostalAddress", "addressLocality": sh['city'], "addressCountry": "IL"}},
           "description": f"{sh['name']} – {sh['age']}. {sh['price']}".strip(), "isAccessibleForFree": False}
     pm = re.search(r'(\d+)\s*₪', sh['price'])
-    if pm:
-        ev["offers"] = {"@type": "Offer", "price": pm.group(1), "priceCurrency": "ILS", "url": sh['link'] or f'{SITE}/hanukkah-nahariya', "availability": "https://schema.org/InStock"}
+    isfree = bool(re.search(r'ללא עלות|חינם|כניסה חופשית', sh['price']))
+    ev["isAccessibleForFree"] = isfree
+    ev["offers"] = {"@type": "Offer", "priceCurrency": "ILS", "url": sh['link'] or f'{SITE}/hanukkah-nahariya', "availability": "https://schema.org/InStock"}
+    if isfree:
+        ev["offers"]["price"] = "0"
+    elif pm:
+        ev["offers"]["price"] = pm.group(1)
     eitems.append(ev)
 if cur:
     body += '</div></section>'
