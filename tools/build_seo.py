@@ -258,7 +258,7 @@ print('baby-activities-nahariya.html', sum(len(v) for v in weekly.values()), 'we
 
 # ---------- hanukkah page ----------
 HSTART, HEND = '2026-12-01', '2026-12-13'
-CITIES = ['נהריה', 'עכו', 'שלומי', 'מעלות-תרשיחא', 'כפר ורדים', 'מעלות']
+CITIES = ['נהריה', 'עכו', 'שלומי', 'מעלות-תרשיחא', 'כפר ורדים', 'מעלות', 'מעלה יוסף']
 shows = []
 for m in re.finditer(r'data-date="(\d{4}-\d{2}-\d{2})"', idx):
     d = m.group(1)
