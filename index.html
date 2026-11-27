@@ -41,10 +41,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .play ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
 .play b{color:var(--ink)}
 .play bdi,.play .t{unicode-bidi:isolate}
-.day{display:grid;grid-template-columns:62px minmax(0,1fr);gap:12px;padding-block:14px;border-bottom:1px solid var(--line);scroll-margin-top:calc(var(--hh,120px) + var(--mh,0px) + env(safe-area-inset-top,0px) + 8px)}
+.day{display:grid;grid-template-columns:46px minmax(0,1fr);gap:10px;padding-block:14px;border-bottom:1px solid var(--line);scroll-margin-top:calc(var(--hh,120px) + var(--mh,0px) + env(safe-area-inset-top,0px) + 8px)}
 .day header{text-align:center;position:sticky;top:calc(var(--hh,120px) + var(--mh,0px) + env(safe-area-inset-top,0px) + 8px);align-self:start}
-.dn{display:block;font-family:var(--f-display);font-size:1.7rem;line-height:1.1;color:var(--ink)}
-.dw{display:block;font-size:.8rem;color:var(--muted)}
+.dn{display:block;font-family:var(--f-display);font-size:1.4rem;line-height:1.1;color:var(--ink)}
+.dw{display:block;font-size:.72rem;color:var(--muted)}
 .day.wk .dn{color:var(--muted)}
 .day.none{opacity:.7}
 .day.none .empty{color:var(--muted);font-size:.88rem;padding-top:6px}
@@ -188,6 +188,14 @@ body{overflow-x:clip}
 .legal p,.legal ul{margin:4px 0}.legal ul{padding-inline-start:20px}.legal li{margin-block:3px}
 .legal>:last-child{margin-bottom:14px}
 .fnote{font-size:.84rem;color:var(--muted);margin:8px 0 4px}
+.act.rec{border-inline-start:5px solid #9fd3c7}
+.rtag{display:block;font-size:.78rem;font-weight:600;color:#2f6b5f;margin:0 0 3px}
+:root[data-theme="dark"] .rtag{color:#9fd3c7}
+.fbrow .fbbtn{border-color:var(--accent);color:var(--ink)}
+.fbtools{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;margin:10px -12px -10px;border-top:1px solid var(--line)}
+.fbtools .fbbtn{border:0;border-radius:0;background:transparent;justify-content:center;padding:9px 0;font-size:.82rem;color:var(--fg)}
+.fbtools .fbbtn+.fbbtn{border-inline-start:1px solid var(--line)}
+.card .fbtools{margin:12px -16px -14px}
 .fbbtn.navbtn,.fbbtn.calbtn{display:inline-flex;align-items:center;gap:5px}.fbbtn.navbtn svg,.fbbtn.calbtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;flex:none}
 .fbbtn.wabtn{display:inline-flex;align-items:center;gap:5px}.fbbtn.wabtn svg{width:15px;height:15px;fill:#25a35a;flex:none}
 .fbrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:8px}
@@ -1716,7 +1724,7 @@ setTimeout(tryShow,visits>1?8000:20000);})();
 <script>setTimeout(function(){document.documentElement.classList.add('ready');},2500);</script><script>(function(){
 var SITE='https://tzarichkfar.com/',DN=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
 var ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>';
-function clean(el){var c=el.cloneNode(true);[].forEach.call(c.querySelectorAll('.fbrow,.fbinfo,.wabtn'),function(x){x.remove();});return c;}
+function clean(el){var c=el.cloneNode(true);[].forEach.call(c.querySelectorAll('.fbrow,.fbinfo,.fbtools,.rtag'),function(x){x.remove();});return c;}
 function grab(txt,label){var m=new RegExp(label+':\\s*([^\\n·]+)').exec(txt);return m?m[1].trim():'';}
 function lines(el){var c=clean(el);c.querySelectorAll('br').forEach(function(b){b.replaceWith('\n');});c.querySelectorAll('.c-row,tr,.c-name,.name').forEach(function(r){r.append('\n');});return c.textContent.replace(/[ \t]+/g,' ');}
 function actText(a){var t=lines(a),name=(a.querySelector('.name')||{}).textContent||'',sec=a.closest('section.day'),iso=sec&&sec.getAttribute('data-date'),out=['*'+name.trim()+'*'];
@@ -1727,7 +1735,8 @@ function placeText(c,view){var t=lines(c),name=(c.querySelector('.c-name')||{}).
   var ad=grab(t,'כתובת');if(ad)out.push('📍 '+ad);var en=grab(t,'כניסה');if(en)out.push('💰 כניסה: '+en);
   var hr=[].map.call(c.querySelectorAll('table.hrs tr'),function(r){var td=r.querySelectorAll('td');return td.length>1?td[0].textContent.trim()+' '+td[1].textContent.trim():r.textContent.trim();}).filter(Boolean);if(hr.length==1)out.push('🕘 '+hr[0]);else if(hr.length){out.push('🕘 שעות פתיחה:');hr.forEach(function(x){out.push('   '+x);});}
   out.push('',view==='play'?'עוד ג׳ימבורים ומשחקיות בנהריה והגליל המערבי:':'עוד בתי קפה עם מדשאה לקטנטנים:',SITE+'#'+view);return out.join('\n');}
-function add(el,fn){var r=el.querySelector('.fbrow');if(!r){r=document.createElement('div');r.className='fbrow';el.appendChild(r);}
+function tools(el){var r=el.querySelector(':scope>.fbtools');if(!r){r=document.createElement('div');r.className='fbtools';el.appendChild(r);}return r;}
+function add(el,fn){var r=tools(el);
   var b=document.createElement('button');b.type='button';b.className='fbbtn wabtn';b.innerHTML=ICON+'<span>שיתוף</span>';b.setAttribute('aria-label','שיתוף בוואטסאפ');
   b.addEventListener('click',function(){var u='https://wa.me/?text='+encodeURIComponent(fn());var w=window.open(u,'_blank','noopener');if(!w)location.href=u;});r.appendChild(b);}
 var NAVI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
@@ -1739,9 +1748,9 @@ function sheet(title,items){if(!sb){sb=document.createElement('div');sb.classNam
   items.forEach(function(it){var a=document.createElement(it.href?'a':'button');if(it.href){a.href=it.href;a.target='_blank';a.rel='noopener';}else{a.type='button';a.addEventListener('click',it.fn);}
     a.textContent=it.label;a.addEventListener('click',function(){setTimeout(function(){sb.hidden=true;},300);});sbBody.appendChild(a);});
   sb.hidden=false;}
-function btn(el,cls,icon,label,fn){var r=el.querySelector('.fbrow');if(!r){r=document.createElement('div');r.className='fbrow';el.appendChild(r);}
+function btn(el,cls,icon,label,fn){var r=tools(el);
   var b=document.createElement('button');b.type='button';b.className='fbbtn '+cls;b.innerHTML=icon+'<span>'+label+'</span>';b.addEventListener('click',fn);
-  var wa=r.querySelector('.wabtn');if(wa)r.insertBefore(b,wa);else r.appendChild(b);}
+  r.appendChild(b);}
 function navTo(q){var e=encodeURIComponent(q);sheet('ניווט ל'+q.split(',')[0],[{label:'Waze',href:'https://waze.com/ul?q='+e+'&navigate=yes'},{label:'Google Maps',href:'https://www.google.com/maps/search/?api=1&query='+e}]);}
 function p2(n){return (n<10?'0':'')+n;}
 function calFor(a){var name=((a.querySelector('.name')||{}).textContent||'').trim(),sec=a.closest('section.day'),iso=sec&&sec.getAttribute('data-date');if(!iso)return null;
@@ -1755,9 +1764,13 @@ function ics(c){var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//tzarichkfar//h
   var blob=new Blob([L.join('\r\n')],{type:'text/calendar;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='tzarichkfar-event.ics';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove();},2000);}
 function calSheet(a){var c=calFor(a);if(!c)return;var g='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(c.name)+'&dates='+c.st+'/'+c.en+(c.allday?'':'&ctz=Asia/Jerusalem')+'&location='+encodeURIComponent(c.loc)+'&details='+encodeURIComponent('פרטים: '+c.url);
   var ios=/iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);var items=[{label:'יומן Google',href:g},{label:ios?'יומן אייפון':'יומן אחר (קובץ)',fn:function(){ics(c);}}];if(ios)items.reverse();sheet('הוספה ליומן',items);}
-function init(){document.querySelectorAll('article.act').forEach(function(a){add(a,function(){return actText(a);});
+function recur(){var by={};document.querySelectorAll('section.day article.act').forEach(function(a){var n=((a.querySelector('.name')||{}).textContent||'').trim(),iso=a.closest('section.day').getAttribute('data-date');if(!n||!iso)return;
+    var wd=new Date(iso+'T12:00:00').getDay(),k=n+'|'+wd;(by[k]=by[k]||{d:{},els:[],wd:wd}).els.push(a);by[k].d[iso]=1;});
+  Object.keys(by).forEach(function(k){var g=by[k];if(Object.keys(g.d).length<3)return;g.els.forEach(function(a){if(a.querySelector('.rtag'))return;a.classList.add('rec');var t=document.createElement('span');t.className='rtag';t.textContent='🔁 כל יום '+DN[g.wd];var nm=a.querySelector('.name');nm.parentNode.insertBefore(t,nm.nextSibling);});});}
+function init(){recur();document.querySelectorAll('article.act').forEach(function(a){
     var loc=grab(lines(a),'מיקום');if(loc)btn(a,'navbtn',NAVI,'ניווט',function(){navTo(loc);});
-    if(a.closest('section.day'))btn(a,'calbtn',CALI,'ליומן',function(){calSheet(a);});});
+    if(a.closest('section.day'))btn(a,'calbtn',CALI,'ליומן',function(){calSheet(a);});
+    add(a,function(){return actText(a);});});
   document.querySelectorAll('#v-play .card, #v-cafes .card').forEach(function(c){var ad=grab(lines(c),'כתובת');if(ad)btn(c,'navbtn',NAVI,'ניווט',function(){navTo(ad);});});
   document.querySelectorAll('#v-play .card').forEach(function(c){add(c,function(){return placeText(c,'play');});});
   document.querySelectorAll('#v-cafes .card').forEach(function(c){add(c,function(){return placeText(c,'cafes');});});}
