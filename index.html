@@ -41,10 +41,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .play ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
 .play b{color:var(--ink)}
 .play bdi,.play .t{unicode-bidi:isolate}
-.day{display:grid;grid-template-columns:46px minmax(0,1fr);gap:10px;padding-block:14px;border-bottom:1px solid var(--line);scroll-margin-top:calc(var(--hh,120px) + var(--mh,0px) + env(safe-area-inset-top,0px) + 8px)}
+.day{display:grid;grid-template-columns:36px minmax(0,1fr);gap:8px;padding-block:14px;border-bottom:1px solid var(--line);scroll-margin-top:calc(var(--hh,120px) + var(--mh,0px) + env(safe-area-inset-top,0px) + 8px)}
 .day header{text-align:center;position:sticky;top:calc(var(--hh,120px) + var(--mh,0px) + env(safe-area-inset-top,0px) + 8px);align-self:start}
-.dn{display:block;font-family:var(--f-display);font-size:1.4rem;line-height:1.1;color:var(--ink)}
-.dw{display:block;font-size:.72rem;color:var(--muted)}
+.dn{display:block;font-family:var(--f-display);font-size:1.15rem;line-height:1.1;color:var(--ink)}
+.dw{display:block;font-size:.64rem;color:var(--muted)}
 .day.wk .dn{color:var(--muted)}
 .day.none{opacity:.7}
 .day.none .empty{color:var(--muted);font-size:.88rem;padding-top:6px}
@@ -1764,9 +1764,11 @@ function ics(c){var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//tzarichkfar//h
   var blob=new Blob([L.join('\r\n')],{type:'text/calendar;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='tzarichkfar-event.ics';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove();},2000);}
 function calSheet(a){var c=calFor(a);if(!c)return;var g='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(c.name)+'&dates='+c.st+'/'+c.en+(c.allday?'':'&ctz=Asia/Jerusalem')+'&location='+encodeURIComponent(c.loc)+'&details='+encodeURIComponent('פרטים: '+c.url);
   var ios=/iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);var items=[{label:'יומן Google',href:g},{label:ios?'יומן אייפון':'יומן אחר (קובץ)',fn:function(){ics(c);}}];if(ios)items.reverse();sheet('הוספה ליומן',items);}
-function recur(){var by={};document.querySelectorAll('section.day article.act').forEach(function(a){var n=((a.querySelector('.name')||{}).textContent||'').trim(),iso=a.closest('section.day').getAttribute('data-date');if(!n||!iso)return;
-    var wd=new Date(iso+'T12:00:00').getDay(),k=n+'|'+wd;(by[k]=by[k]||{d:{},els:[],wd:wd}).els.push(a);by[k].d[iso]=1;});
-  Object.keys(by).forEach(function(k){var g=by[k];if(Object.keys(g.d).length<3)return;g.els.forEach(function(a){if(a.querySelector('.rtag'))return;a.classList.add('rec');var t=document.createElement('span');t.className='rtag';t.textContent='🔁 כל יום '+DN[g.wd];var nm=a.querySelector('.name');nm.parentNode.insertBefore(t,nm.nextSibling);});});}
+function recur(){var by={},L=['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];document.querySelectorAll('section.day article.act').forEach(function(a){var n=((a.querySelector('.name')||{}).textContent||'').trim(),iso=a.closest('section.day').getAttribute('data-date');if(!n||!iso)return;
+    var wd=new Date(iso+'T12:00:00').getDay(),g=by[n]=by[n]||{els:[],w:{}};g.els.push({a:a,wd:wd});(g.w[wd]=g.w[wd]||{})[iso]=1;});
+  Object.keys(by).forEach(function(n){var g=by[n],days=Object.keys(g.w).map(Number).filter(function(d){return Object.keys(g.w[d]).length>=3;}).sort();if(!days.length)return;
+    var lbl;if(days.length==1)lbl='כל יום '+DN[days[0]];else{var run=days.length>=3&&days[days.length-1]-days[0]==days.length-1;var ls=days.map(function(d){return L[d];});lbl=run?'ימים '+ls[0]+'–'+ls[ls.length-1]:'ימים '+ls.slice(0,-1).join(', ')+' ו'+ls[ls.length-1];}
+    g.els.forEach(function(o){if(days.indexOf(o.wd)<0||o.a.querySelector('.rtag'))return;o.a.classList.add('rec');var t=document.createElement('span');t.className='rtag';t.textContent='🔁 '+lbl;var nm=o.a.querySelector('.name');nm.parentNode.insertBefore(t,nm.nextSibling);});});}
 function init(){recur();document.querySelectorAll('article.act').forEach(function(a){
     var loc=grab(lines(a),'מיקום');if(loc)btn(a,'navbtn',NAVI,'ניווט',function(){navTo(loc);});
     if(a.closest('section.day'))btn(a,'calbtn',CALI,'ליומן',function(){calSheet(a);});
