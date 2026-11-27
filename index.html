@@ -188,6 +188,7 @@ body{overflow-x:clip}
 .legal p,.legal ul{margin:4px 0}.legal ul{padding-inline-start:20px}.legal li{margin-block:3px}
 .legal>:last-child{margin-bottom:14px}
 .fnote{font-size:.84rem;color:var(--muted);margin:8px 0 4px}
+.fbbtn.navbtn,.fbbtn.calbtn{display:inline-flex;align-items:center;gap:5px}.fbbtn.navbtn svg,.fbbtn.calbtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;flex:none}
 .fbbtn.wabtn{display:inline-flex;align-items:center;gap:5px}.fbbtn.wabtn svg{width:15px;height:15px;fill:#25a35a;flex:none}
 .fbrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:8px}
 .fbbtn{font:inherit;font-size:.84rem;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 14px;cursor:pointer}
@@ -249,7 +250,7 @@ body:has(.newsbar:not([hidden])) .totop,body:has(.newsbar:not([hidden])) .sharef
 </head><body>
 <div class="wrap">
 <div class="brand"><div class="bwrap"><svg class="logo" viewBox="14 14 340 236" aria-hidden="true"><defs><filter id="rflogo" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5"/></filter></defs><g filter="url(#rflogo)" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><g stroke="#5cb85c"><path d="M18 150L92 84L166 150"/><path d="M32 144V232H152V144"/><path d="M78 232V192H106V232"/><rect x="46" y="166" width="22" height="22" rx="3" stroke-width="5"/><rect x="116" y="166" width="22" height="22" rx="3" stroke-width="5"/><path d="M50 114V84H66V100"/></g><g stroke="#f3a53b"><circle cx="180" cy="48" r="20"/><path d="M180 10v10M180 76v10M142 48h10M208 48h10M153 21l7 7M200 68l7 7M207 21l-7 7M153 75l7-7"/></g><g transform="translate(205,150) scale(1.15)"><g stroke="#4a9fd8"><circle cx="0" cy="0" r="10"/><path d="M0 10V42M0 20L-18 38M0 20L24 36M0 42l-10 28M0 42l10 28"/></g><g stroke="#e8709a"><circle cx="50" cy="2" r="10"/><path d="M50 14l-18 40h36zM42 54v16M58 54v16M50 26L26 36M50 26l16 14"/></g></g><path stroke="#4a9fd8" stroke-width="5" d="M15 262H345"/></g></svg><div class="btext"><h1 class="bname">צריך כפר שלם</h1><p class="slogan">מגדלים ילדים ביחד<br><span class="slogan2">הפעילויות, המקומות והקהילה של נהריה והגליל המערבי</span></p></div><button type="button" class="theme" id="theme" aria-pressed="false">מצב כהה</button></div><svg class="sky" aria-hidden="true" preserveAspectRatio="none"><defs><pattern id="skp" width="150" height="30" patternUnits="userSpaceOnUse"><path d="M0 30V18l9-8 9 8v12zM24 30V12l11-10 11 10v18zM52 30V20l8-7 8 7v10zM76 30V16l10-9 10 9v14zM102 30V21l8-7 8 7v10zM124 30V14l9-8 9 8v16z" fill="var(--line)"/></pattern></defs><rect width="100%" height="30" fill="url(#skp)"/></svg></div>
-<p class="upd">עודכן לאחרונה: 26/11/2026</p>
+<p class="upd">עודכן לאחרונה: 27/11/2026</p>
 <div class="stick" id="stick">
 
 
@@ -1729,7 +1730,35 @@ function placeText(c,view){var t=lines(c),name=(c.querySelector('.c-name')||{}).
 function add(el,fn){var r=el.querySelector('.fbrow');if(!r){r=document.createElement('div');r.className='fbrow';el.appendChild(r);}
   var b=document.createElement('button');b.type='button';b.className='fbbtn wabtn';b.innerHTML=ICON+'<span>שיתוף</span>';b.setAttribute('aria-label','שיתוף בוואטסאפ');
   b.addEventListener('click',function(){var u='https://wa.me/?text='+encodeURIComponent(fn());var w=window.open(u,'_blank','noopener');if(!w)location.href=u;});r.appendChild(b);}
-function init(){document.querySelectorAll('article.act').forEach(function(a){add(a,function(){return actText(a);});});
+var NAVI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+var CALI='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>';
+var sb=null,sbBody=null;
+function sheet(title,items){if(!sb){sb=document.createElement('div');sb.className='sheetbg';sb.hidden=true;sb.innerHTML='<div class="sheet" role="dialog"><div class="num" style="direction:rtl;font-size:1.2rem"></div><div class="row" style="flex-direction:column;align-items:stretch"></div><button type="button" style="background:var(--surface2)">סגירה</button></div>';document.body.appendChild(sb);
+  sbBody=sb.querySelector('.row');sb.addEventListener('click',function(e){if(e.target===sb||e.target===sb.querySelector('.sheet>button'))sb.hidden=true;});}
+  sb.querySelector('.num').textContent=title;sbBody.innerHTML='';
+  items.forEach(function(it){var a=document.createElement(it.href?'a':'button');if(it.href){a.href=it.href;a.target='_blank';a.rel='noopener';}else{a.type='button';a.addEventListener('click',it.fn);}
+    a.textContent=it.label;a.addEventListener('click',function(){setTimeout(function(){sb.hidden=true;},300);});sbBody.appendChild(a);});
+  sb.hidden=false;}
+function btn(el,cls,icon,label,fn){var r=el.querySelector('.fbrow');if(!r){r=document.createElement('div');r.className='fbrow';el.appendChild(r);}
+  var b=document.createElement('button');b.type='button';b.className='fbbtn '+cls;b.innerHTML=icon+'<span>'+label+'</span>';b.addEventListener('click',fn);
+  var wa=r.querySelector('.wabtn');if(wa)r.insertBefore(b,wa);else r.appendChild(b);}
+function navTo(q){var e=encodeURIComponent(q);sheet('ניווט ל'+q.split(',')[0],[{label:'Waze',href:'https://waze.com/ul?q='+e+'&navigate=yes'},{label:'Google Maps',href:'https://www.google.com/maps/search/?api=1&query='+e}]);}
+function p2(n){return (n<10?'0':'')+n;}
+function calFor(a){var name=((a.querySelector('.name')||{}).textContent||'').trim(),sec=a.closest('section.day'),iso=sec&&sec.getAttribute('data-date');if(!iso)return null;
+  var t=lines(a),loc=grab(t,'מיקום'),tm=((a.querySelector('span[dir="ltr"]')||{}).textContent||'').trim(),m=/(\d{1,2}):(\d{2})(?:\s*[–-]\s*(\d{1,2}):(\d{2}))?/.exec(tm),ymd=iso.replace(/-/g,''),st,en,allday=!m;
+  if(m){var sh=+m[1],sm=+m[2],eh,em;if(m[3]){eh=+m[3];em=+m[4];}else{eh=sh+1;em=sm;}st=ymd+'T'+p2(sh)+p2(sm)+'00';en=ymd+'T'+p2(eh)+p2(em)+'00';}
+  else{var d=new Date(iso+'T12:00:00');d.setDate(d.getDate()+1);st=ymd;en=d.getFullYear()+p2(d.getMonth()+1)+p2(d.getDate());}
+  return {name:name,loc:loc,st:st,en:en,allday:allday,url:SITE+'?d='+iso};}
+function esc(x){return String(x).replace(/\\/g,'\\\\').replace(/([,;])/g,'\\$1').replace(/\n/g,'\\n');}
+function ics(c){var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//tzarichkfar//he','BEGIN:VEVENT','UID:'+c.st+'-'+Math.random().toString(36).slice(2)+'@tzarichkfar.com','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z',
+  (c.allday?'DTSTART;VALUE=DATE:':'DTSTART:')+c.st,(c.allday?'DTEND;VALUE=DATE:':'DTEND:')+c.en,'SUMMARY:'+esc(c.name),'LOCATION:'+esc(c.loc),'DESCRIPTION:'+esc('פרטים: '+c.url),'URL:'+c.url,'END:VEVENT','END:VCALENDAR'];
+  var blob=new Blob([L.join('\r\n')],{type:'text/calendar;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='tzarichkfar-event.ics';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove();},2000);}
+function calSheet(a){var c=calFor(a);if(!c)return;var g='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(c.name)+'&dates='+c.st+'/'+c.en+(c.allday?'':'&ctz=Asia/Jerusalem')+'&location='+encodeURIComponent(c.loc)+'&details='+encodeURIComponent('פרטים: '+c.url);
+  var ios=/iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);var items=[{label:'יומן Google',href:g},{label:ios?'יומן אייפון':'יומן אחר (קובץ)',fn:function(){ics(c);}}];if(ios)items.reverse();sheet('הוספה ליומן',items);}
+function init(){document.querySelectorAll('article.act').forEach(function(a){add(a,function(){return actText(a);});
+    var loc=grab(lines(a),'מיקום');if(loc)btn(a,'navbtn',NAVI,'ניווט',function(){navTo(loc);});
+    if(a.closest('section.day'))btn(a,'calbtn',CALI,'ליומן',function(){calSheet(a);});});
+  document.querySelectorAll('#v-play .card, #v-cafes .card').forEach(function(c){var ad=grab(lines(c),'כתובת');if(ad)btn(c,'navbtn',NAVI,'ניווט',function(){navTo(ad);});});
   document.querySelectorAll('#v-play .card').forEach(function(c){add(c,function(){return placeText(c,'play');});});
   document.querySelectorAll('#v-cafes .card').forEach(function(c){add(c,function(){return placeText(c,'cafes');});});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
